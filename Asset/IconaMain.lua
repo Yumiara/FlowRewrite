@@ -2,7 +2,7 @@
 
 local Icons = {
     ["lucide"] = loadScriptFromCache("https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/lucide/dist/Icons.lua", "IconaLucide"),
-    ["craft"] = loadScriptFromCache("https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/craft/dist/Icons.lua", "IconaCraft");,
+    ["craft"] = loadScriptFromCache("https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/craft/dist/Icons.lua", "IconaCraft"),
     
     
     -- More soon 
