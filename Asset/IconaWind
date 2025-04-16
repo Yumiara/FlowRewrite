@@ -1,5 +1,3 @@
---Sorry for make change but the Dropdown is very laggy, feel free to contact me if you want me to remove this
-
 local a
 a = {
     cache = {},
@@ -1958,7 +1956,9 @@ do
             MenuPadding = 7,
             TabPadding = 10
         }
+        local globalTable = {};
         h.New = function(i, j)
+            local FirstTimeOpen = true;
             local k, n = {
                 __type = "Dropdown",
                 Title = j.Title or "Dropdown",
@@ -1968,14 +1968,14 @@ do
                 Value = j.Value,
                 AllowNone = j.AllowNone,
                 Multi = j.Multi,
-                NoLag = j.NoLag or false,
-                Callback = j.Callback or function() end,
+                NoLag = j.NoLag or false;
+                Callback = j.Callback or function()
+                    -- empty block
+                end,
                 UIElements = {},
                 Opened = false,
                 Tabs = {}
             }, true
-        
-            -- DropdownFrame setup (unchanged for simplicity)
             k.DropdownFrame = a.load("f")({
                 Title = k.Title,
                 Desc = k.Desc,
@@ -1983,31 +1983,57 @@ do
                 TextOffset = 160,
                 Hover = false
             })
-        
-            -- Simplified Dropdown button
             k.UIElements.Dropdown = f("TextButton", {
                 BackgroundTransparency = 0.95,
                 Text = "",
                 FontFace = Font.new(e.Font, Enum.FontWeight.Medium),
                 TextSize = 15,
+                TextTransparency = 0.4,
                 TextXAlignment = "Left",
                 Parent = k.DropdownFrame.UIElements.Main,
                 Size = UDim2.new(0, 150, 0, 30),
                 AnchorPoint = Vector2.new(1, 0.5),
+                TextTruncate = "AtEnd",
                 Position = UDim2.new(1, 0, 0.5, 0),
                 ThemeTag = {
                     BackgroundColor3 = "Text",
                     TextColor3 = "Text"
                 },
                 ZIndex = 2
+            }, {
+                f("UICorner", {
+                    CornerRadius = UDim.new(0, h.UICorner)
+                }),
+                f("UIStroke", {
+                    ThemeTag = {
+                        Color = "Text"
+                    },
+                    Transparency = 0.93,
+                    ApplyStrokeMode = "Border",
+                    Thickness = 1
+                }),
+                f("UIPadding", {
+                    PaddingTop = UDim.new(0, h.UIPadding),
+                    PaddingLeft = UDim.new(0, h.UIPadding),
+                    PaddingRight = UDim.new(0, h.UIPadding * 2 + 18),
+                    PaddingBottom = UDim.new(0, h.UIPadding)
+                }),
+                f("ImageLabel", {
+                    Image = e.Icon("chevron-down")[1],
+                    ImageRectOffset = e.Icon("chevron-down")[2].ImageRectPosition,
+                    ImageRectSize = e.Icon("chevron-down")[2].ImageRectSize,
+                    Size = UDim2.new(0, 18, 0, 18),
+                    Position = UDim2.new(1, h.UIPadding + 18, 0.5, 0),
+                    ThemeTag = {
+                        ImageColor3 = "Text"
+                    },
+                    AnchorPoint = Vector2.new(1, 0.5)
+                })
             })
-        
-            -- Menu setup
             k.UIElements.UIListLayout = f("UIListLayout", {
                 Padding = UDim.new(0, h.MenuPadding / 1.5),
                 FillDirection = "Vertical"
             })
-        
             k.UIElements.Menu = f("Frame", {
                 ThemeTag = {
                     BackgroundColor3 = "Accent"
@@ -2015,12 +2041,28 @@ do
                 BackgroundTransparency = 0.15,
                 Size = UDim2.new(1, 0, 1, 0)
             }, {
+                f("UICorner", {
+                    CornerRadius = UDim.new(0, h.MenuCorner)
+                }),
+                f("UIStroke", {
+                    Thickness = 1,
+                    Transparency = 0.93,
+                    ThemeTag = {
+                        Color = "Text"
+                    }
+                }),
                 f("Frame", {
                     BackgroundTransparency = 1,
                     Size = UDim2.new(1, 0, 1, 0),
                     Name = "CanvasGroup",
                     ClipsDescendants = true
                 }, {
+                    f("UIPadding", {
+                        PaddingTop = UDim.new(0, h.MenuPadding),
+                        PaddingLeft = UDim.new(0, h.MenuPadding),
+                        PaddingRight = UDim.new(0, h.MenuPadding),
+                        PaddingBottom = UDim.new(0, h.MenuPadding)
+                    }),
                     f("ScrollingFrame", {
                         Size = UDim2.new(1, 0, 1, 0),
                         ScrollBarThickness = 0,
@@ -2033,7 +2075,6 @@ do
                     })
                 })
             })
-        
             k.UIElements.MenuCanvas = f("CanvasGroup", {
                 Size = UDim2.new(0, 190, 0, 300),
                 BackgroundTransparency = 1,
@@ -2043,10 +2084,17 @@ do
                 GroupTransparency = 1,
                 Parent = j.Window.SuperParent.Parent.Dropdowns
             }, {
-                k.UIElements.Menu
+                k.UIElements.Menu,
+                f("UIPadding", {
+                    PaddingTop = UDim.new(0, 1),
+                    PaddingLeft = UDim.new(0, 1),
+                    PaddingRight = UDim.new(0, 1),
+                    PaddingBottom = UDim.new(0, 1)
+                }),
+                f("UISizeConstraint", {
+                    MinSize = Vector2.new(190, 0)
+                })
             })
-        
-            -- Lock/Unlock methods
             k.Lock = function(o)
                 n = false
                 return k.DropdownFrame:Lock()
@@ -2058,8 +2106,15 @@ do
             if k.Locked then
                 k:Lock()
             end
-        
-            -- Update position (called later)
+            local o, p = function()
+                k.UIElements.Menu.CanvasGroup.ScrollingFrame.CanvasSize = UDim2.fromOffset(0, k.UIElements.UIListLayout.AbsoluteContentSize.Y)
+            end, function()
+                if #k.Values > 10 then
+                    k.UIElements.MenuCanvas.Size = UDim2.fromOffset(k.UIElements.UIListLayout.AbsoluteContentSize.X, 392)
+                else
+                    k.UIElements.MenuCanvas.Size = UDim2.fromOffset(k.UIElements.UIListLayout.AbsoluteContentSize.X, k.UIElements.UIListLayout.AbsoluteContentSize.Y + h.MenuPadding * 2 + 1)
+                end
+            end
             UpdatePosition = function()
                 local q = -35
                 if d.ViewportSize.Y - k.UIElements.Dropdown.AbsolutePosition.Y + q < k.UIElements.MenuCanvas.AbsoluteSize.Y + 10 then
@@ -2067,13 +2122,13 @@ do
                 end
                 k.UIElements.MenuCanvas.Position = UDim2.fromOffset(k.UIElements.Dropdown.AbsolutePosition.X - 1, k.UIElements.Dropdown.AbsolutePosition.Y - q)
             end
-        
-            -- Simplified Display (deferred until open)
-            k.Display = function()
-                local s = ""
+            k.Display = function(q)
+                local r, s = k.Values, ""
                 if k.Multi then
-                    for _, u in ipairs(k.Value or {}) do
-                        s = s .. u .. ", "
+                    for t, u in next, r do
+                        if table.find(k.Value, u) then
+                            s = s .. u .. ", "
+                        end
                     end
                     s = s:sub(1, #s - 2)
                 else
@@ -2081,111 +2136,238 @@ do
                 end
                 k.UIElements.Dropdown.Text = (s == "" and "--" or s)
             end
-        
-            -- Optimized Refresh
             k.Refresh = function(q, r)
-                local scrollingFrame = k.UIElements.Menu.CanvasGroup.ScrollingFrame
-                for _, t in ipairs(scrollingFrame:GetChildren()) do
+                for s, t in pairs(k.UIElements.Menu.CanvasGroup.ScrollingFrame:GetChildren()) do
                     if not t:IsA("UIListLayout") then
                         t:Destroy()
                     end
                 end
                 k.Tabs = {}
-        
-                -- Batch create UI elements
-                local itemHeight = 34
-                local items = {}
-                for u, v in ipairs(r) do
+                for u, v in pairs(r) do
                     local w = {
                         Name = v,
-                        Selected = k.Multi and table.find(k.Value or {}, v) or k.Value == v,
+                        Selected = false,
                         UIElements = {}
                     }
                     w.UIElements.TabItem = f("TextButton", {
-                        Size = UDim2.new(1, 0, 0, itemHeight),
+                        Size = UDim2.new(1, 0, 0, 34),
                         BackgroundTransparency = 1,
-                        Parent = scrollingFrame,
-                        Text = v,
-                        FontFace = Font.new(e.Font, Enum.FontWeight.Medium),
-                        TextSize = 15,
-                        TextXAlignment = "Left"
+                        Parent = k.UIElements.Menu.CanvasGroup.ScrollingFrame,
+                        Text = ""
+                    }, {
+                        f("UIPadding", {
+                            PaddingTop = UDim.new(0, h.TabPadding),
+                            PaddingLeft = UDim.new(0, h.TabPadding),
+                            PaddingRight = UDim.new(0, h.TabPadding),
+                            PaddingBottom = UDim.new(0, h.TabPadding)
+                        }),
+                        f("UICorner", {
+                            CornerRadius = UDim.new(0, h.MenuCorner - h.MenuPadding)
+                        }),
+                        f("ImageLabel", {
+                            Image = e.Icon("check")[1],
+                            ImageRectSize = e.Icon("check")[2].ImageRectSize,
+                            ImageRectOffset = e.Icon("check")[2].ImageRectPosition,
+                            ThemeTag = {
+                                ImageColor3 = "Text"
+                            },
+                            ImageTransparency = 1,
+                            Size = UDim2.new(0, 18, 0, 18),
+                            AnchorPoint = Vector2.new(0, 0.5),
+                            Position = UDim2.new(0, 0, 0.5, 0),
+                            BackgroundTransparency = 1
+                        }),
+                        f("TextLabel", {
+                            Text = v,
+                            TextXAlignment = "Left",
+                            FontFace = Font.new(e.Font, Enum.FontWeight.Medium),
+                            ThemeTag = {
+                                TextColor3 = "Text",
+                                BackgroundColor3 = "Text"
+                            },
+                            TextSize = 15,
+                            BackgroundTransparency = 1,
+                            TextTransparency = 0.4,
+                            AutomaticSize = "Y",
+                            TextTruncate = "AtEnd",
+                            Size = UDim2.new(1, -18 - h.TabPadding * 3, 0, 0),
+                            AnchorPoint = Vector2.new(0, 0.5),
+                            Position = UDim2.new(0, 0, 0.5, 0)
+                        })
                     })
+                    if k.Multi then
+                        w.Selected = table.find(k.Value or {}, w.Name)
+                    else
+                        w.Selected = k.Value == w.Name
+                    end
+                    if w.Selected then
+                        w.UIElements.TabItem.BackgroundTransparency = 0.93
+                        w.UIElements.TabItem.ImageLabel.ImageTransparency = 0.1
+                        w.UIElements.TabItem.TextLabel.Position = UDim2.new(0, 18 + h.TabPadding, 0.5, 0)
+                        w.UIElements.TabItem.TextLabel.TextTransparency = 0
+                    end
                     k.Tabs[u] = w
-                    items[u] = w
-                end
-        
-                -- Set CanvasSize once
-                k.UIElements.MenuCanvas.Size = UDim2.new(0, 190, 0, math.min(#r * itemHeight + h.MenuPadding * 2, 392))
-                scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, #r * itemHeight)
-        
-                -- Defer event connections until open
-                k.ConnectEvents = function()
-                    for _, w in ipairs(items) do
-                        w.UIElements.TabItem.MouseButton1Click:Connect(function()
-                            if k.Multi then
-                                if not w.Selected then
-                                    w.Selected = true
-                                    table.insert(k.Value, w.Name)
-                                else
-                                    if not k.AllowNone and #k.Value == 1 then
-                                        return
-                                    end
-                                    w.Selected = false
-                                    for y, z in ipairs(k.Value) do
-                                        if z == w.Name then
-                                            table.remove(k.Value, y)
-                                            break
-                                        end
-                                    end
-                                end
-                            else
-                                for _, z in ipairs(k.Tabs) do
-                                    z.Selected = false
-                                end
-                                w.Selected = true
-                                k.Value = w.Name
-                            end
-                            k:Display()
-                            task.spawn(k.Callback, k.Value)
+                    local x = function()
+                        k:Display()
+                        task.spawn(function()
+                            k.Callback(k.Value)
                         end)
                     end
+                    w.UIElements.TabItem.MouseButton1Click:Connect(function()
+                        if k.Multi then
+                            if not w.Selected then
+                                w.Selected = true
+                                if not k.NoLag then
+                                    g(w.UIElements.TabItem, 0.1, {
+                                        BackgroundTransparency = 0.93
+                                    }):Play()
+                                    g(w.UIElements.TabItem.ImageLabel, 0.1, {
+                                        ImageTransparency = 0.1
+                                    }):Play()
+                                    g(w.UIElements.TabItem.TextLabel, 0.1, {
+                                        Position = UDim2.new(0, 18 + h.TabPadding, 0.5, 0),
+                                        TextTransparency = 0
+                                    }):Play()
+                                else
+                                    w.UIElements.TabItem.BackgroundTransparency = 0.93
+
+                                    w.UIElements.TabItem.ImageLabel.ImageTransparency = 0.1;
+
+                                    w.UIElements.TabItem.TextLabel.Position = UDim2.new(0, 18 + h.TabPadding, 0.5, 0);
+                                    w.UIElements.TabItem.TextLabel.TextTransparency = 0;
+                                end;
+                                table.insert(k.Value, w.Name)
+                            else
+                                if not k.AllowNone and #k.Value == 1 then
+                                    return
+                                end
+                                w.Selected = false
+                                g(w.UIElements.TabItem, 0.1, {
+                                    BackgroundTransparency = 1
+                                }):Play()
+                                g(w.UIElements.TabItem.ImageLabel, 0.1, {
+                                    ImageTransparency = 1
+                                }):Play()
+                                g(w.UIElements.TabItem.TextLabel, 0.1, {
+                                    Position = UDim2.new(0, 0, 0.5, 0),
+                                    TextTransparency = 0.4
+                                }):Play()
+                                for y, z in ipairs(k.Value) do
+                                    if z == w.Name then
+                                        table.remove(k.Value, y)
+                                        break
+                                    end
+                                end
+                            end
+                        else
+                            for y, z in next, k.Tabs do
+                                if not k.NoLag then
+                                    g(z.UIElements.TabItem, 0.1, {
+                                        BackgroundTransparency = 1
+                                    }):Play()
+                                    g(z.UIElements.TabItem.ImageLabel, 0.1, {
+                                        ImageTransparency = 1
+                                    }):Play()
+                                    g(z.UIElements.TabItem.TextLabel, 0.1, {
+                                        Position = UDim2.new(0, 0, 0.5, 0),
+                                        TextTransparency = 0.4
+                                    }):Play();
+                                else
+                                    z.UIElements.TabItem.BackgroundTransparency = 1;
+                                    z.UIElements.TabItem.ImageLabel.ImageTransparency = 1;
+                                    z.UIElements.TabItem.TextLabel.Position = UDim2.new(0, 0, 0.5, 0)
+                                    z.UIElements.TabItem.TextLabel.TextTransparency = 0.4;
+                                end;
+                                z.Selected = false
+                            end
+                            w.Selected = true
+                            if not k.NoLag then
+                                g(w.UIElements.TabItem, 0.1, {
+                                    BackgroundTransparency = 0.93
+                                }):Play()
+                                g(w.UIElements.TabItem.ImageLabel, 0.1, {
+                                    ImageTransparency = 0.1
+                                }):Play()
+                                g(w.UIElements.TabItem.TextLabel, 0.1, {
+                                    Position = UDim2.new(0, 18 + h.TabPadding, 0.5, 0),
+                                    TextTransparency = 0
+                                }):Play()
+                            else
+                                w.UIElements.TabItem.BackgroundTransparency = 0.93;
+                                w.UIElements.TabItem.ImageLabel.ImageTransparency = 0.1;
+                                w.UIElements.TabItem.TextLabel.Position = UDim2.new(0, 18 + h.TabPadding, 0.5, 0);
+                                w.UIElements.TabItem.TextLabel.TextTransparency = 0;
+                            end;
+                            k.Value = w.Name
+                        end
+                        x()
+                    end)
+                    o()
+                    p()
                 end
             end
-        
-            k.Select = function(q, r)
-                if r then
-                    k.Value = r
+            task.delay(3, function()
+                if not k.NoLag then
+                    k:Refresh(k.Values);
+                end;
+                k.Select = function(q, r)
+                    if r then
+                        k.Value = r
+                    end
+                    k:Refresh(k.Values);
                 end
-                k:Refresh(k.Values)
+                k:Display()
+                p()
+            end);
+            k.Open = function(q)
+                if k.NoLag then
+                    if FirstTimeOpen then
+                        FirstTimeOpen = false;
+                        DoyouWantToUseThis:Notify({
+                            Title = "<font color='rgb(255,0,0)'>ALERT</font>",
+                            Content = "If you see this message, we are very sorry for lagging your gameplay. But due to too many Options in this dropdown this might lag/freeze your game for a few seconds or longer. This will only happen if it's first time openning.",
+                            Icon = "circle-alert",
+                            Duration = 20,
+                        });
+                        task.wait(1);
+                        k:Refresh(k.Values);
+                    end;
+                end;
+                k.Opened = true
+                k.UIElements.MenuCanvas.Visible = true
+                k.UIElements.MenuCanvas.Active = true
+                k.UIElements.Menu.Size = UDim2.new(1, 0, 0, 0)
+                g(k.UIElements.Menu, 0.1, {
+                    Size = UDim2.new(1, 0, 1, 0)
+                }, Enum.EasingStyle.Quart, Enum.EasingDirection.Out):Play()
+                g(k.UIElements.Dropdown.ImageLabel, 0.15, {
+                    Rotation = 180
+                }):Play()
+                g(k.UIElements.MenuCanvas, 0.15, {
+                    GroupTransparency = 0
+                }):Play()
+                UpdatePosition()
             end
-        
-            -- Initialize
-            k:Refresh(k.Values)
-        
-            -- Open method (connects events and displays)
-            k.Open = function()
-                if not k.Opened then
-                    k.Opened = true
-                    k.UIElements.MenuCanvas.Visible = true
-                    k.UIElements.MenuCanvas.Active = true
-                    k:ConnectEvents()
-                    k:Display()
-                    UpdatePosition()
-                end
-            end
-        
-            k.Close = function()
+            k.Close = function(q)
                 k.Opened = false
+                g(k.UIElements.Menu, 0.1, {
+                    Size = UDim2.new(1, 0, 0.8, 0)
+                }, Enum.EasingStyle.Quart, Enum.EasingDirection.Out):Play()
+                g(k.UIElements.Dropdown.ImageLabel, 0.15, {
+                    Rotation = 0
+                }):Play()
+                g(k.UIElements.MenuCanvas, 0.15, {
+                    GroupTransparency = 1
+                }):Play()
+                task.wait(0.1)
                 k.UIElements.MenuCanvas.Visible = false
                 k.UIElements.MenuCanvas.Active = false
             end
-        
             k.UIElements.Dropdown.MouseButton1Click:Connect(function()
                 if n then
                     k:Open()
                 end
             end)
-        
             b.InputBegan:Connect(function(q)
                 if q.UserInputType == Enum.UserInputType.MouseButton1 or q.UserInputType == Enum.UserInputType.Touch then
                     local r, s = k.UIElements.MenuCanvas.AbsolutePosition, k.UIElements.MenuCanvas.AbsoluteSize
@@ -2194,12 +2376,10 @@ do
                     end
                 end
             end)
-        
             k.UIElements.Dropdown:GetPropertyChangedSignal("AbsolutePosition"):Connect(UpdatePosition)
-        
             return k.__type, k
         end
-        return h;
+        return h
     end
     a.m = function()
         local b, c, d = {}, {
@@ -5033,4 +5213,5 @@ aa.CreateWindow = function(k, n)
     end
     return s
 end
-return aa
+
+return aa;
