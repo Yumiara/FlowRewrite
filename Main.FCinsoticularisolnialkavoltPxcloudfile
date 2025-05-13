@@ -1,1 +1,1065 @@
 return print("From : CinsoticularisolnialkavoltPxcloudfile : As : Test MSG");
+------------- Game Load -------------
+repeat 
+    task.wait(); 
+until game:IsLoaded();
+
+------------- Super Global -------------
+GG = (getgenv and getgenv()) or _G or shared or false;
+GG.GG = GG;
+
+if not GG then
+    game:GetService("Players"):Kick("GG not found. Please report this bug in discord server and tell us your executor.");
+end;
+
+if not GG.AlreadyLoadMain then
+    for i=1, 3 do
+        local GlobalOneRunCall, GlobalOneRunError = pcall(function()
+            GG.AllowDebug = true;
+
+            local OriginPrint = print;
+            GG.OriginPrint2 = print;
+            GG.print = function(...)
+                local txt = tos(...);
+                if strfind(txt, "Debug") then
+                    if GG.AllowDebug then
+                        return OriginPrint(...);
+                    end;
+                end;
+                return OriginPrint(...);
+            end;
+
+            GG.lowesttime = 0.0000016689300537109375;
+            GG.setc = setclipboard or toclipboard;
+            GG.tos = tostring;
+            GG.ton = tonumber;
+            GG.tablein = table.insert;
+            GG.tablecl = table.clear;
+            GG.tablef = table.find;
+            GG.tk = task;
+            GG.tspawn = tk.spawn;
+            GG.twait = tk.wait;
+            GG.tdelay = task.delay;
+            GG.wait = wait;
+            GG.Vec3 = Vector3.new;
+            GG.CF = CFrame.new;
+            GG.str = string;
+            GG.strgsub = str.gsub;
+            GG.strsub = str.sub;
+            GG.strfind = str.find;
+            GG.strlen = str.len;
+            GG.strchar = str.char;
+            GG.strbyte = str.byte;
+            GG.pir = pairs;
+            GG.pcal = pcall;
+            GG.Instancen = Instance.new;
+            GG.tick = tick;
+            GG.delay = delay;
+            GG.mfloor = math.floor;
+            GG.tabler = table.remove;
+            GG.fromRGB = Color3.fromRGB;
+            GG.ipairs = ipairs;
+            GG.sort = table.sort;
+            GG.concat = table.concat;
+            GG.unpack = table.unpack;
+
+            GG.IsA = function( object : any , class : string )
+                return object:IsA(class);
+            end;
+
+            GG.GetAttribute = function( object : any , attribute : string )
+                return object:GetAttribute(attribute);
+            end;
+            GG.SetAttribute = function( object : any , attribute : string , value : any )
+                return object:SetAttribute(attribute, value);
+            end;
+
+            GG.FindFirstChild = function( object : any , name : string , isDescen : boolean )
+                return object:FindFirstChild(name, isDescen or nil);
+            end;
+            GG.FindFirstChildOfClass = function( object : any , class : string )
+                return object:FindFirstChildOfClass(class);
+            end;
+            GG.FindFirstChildWhichIsA = function( object : any , class : string , isDescen : boolean )
+                return object:FindFirstChildWhichIsA(class, isDescen or nil);
+            end;
+
+            GG.GetService = function( service : string )
+                return game:GetService(service);
+            end;
+
+            GG.GetChildren = function( object : Instance )
+                return object:GetChildren();
+            end;
+            GG.GetDescendants = function( object : Instance )
+                return object:GetDescendants();
+            end;
+
+            GG.WaitForChild = function( object : Instance , name : string , timeout : number )
+                return object:WaitForChild(name, timeout or nil);
+            end;
+
+            GG.Destroy = function( object : Instance )
+                return object:Destroy(true);
+            end;
+
+            local tempwait : any = GG.twait;
+            GG.twait = function( time : number )
+                if time and time > 0 then
+                    return tempwait(time);
+                else
+                    if time == nil then
+                        return tempwait(time);
+                    end;
+                    return 0;
+                end;
+            end;
+
+            GG.VirtualInputManager = GetService('VirtualInputManager');
+            GG.CollectionService = GetService("CollectionService");
+            GG.UserInputService = GetService("UserInputService");
+            GG.TextService = GetService("TextChatService");
+            GG.HttpService = GetService("HttpService");
+            GG.TeleportService = GetService("TeleportService");
+            GG.StarterGui = GetService("StarterGui");
+            GG.TweenService = GetService("TweenService");
+            GG.GuiService = GetService("GuiService");
+            GG.VU = GetService("VirtualUser");
+            GG.W = GetService("Workspace");
+            GG.P = GetService("Players");
+            GG.L = GetService("Lighting");
+            GG.C = GetService("CoreGui");
+            GG.H = GetService("RunService");
+            GG.R = GetService("ReplicatedStorage");
+
+            GG.selff = P.LocalPlayer;
+            GG.Cam = WaitForChild(W, "Camera", 999);
+            GG.PSG = WaitForChild(selff, "PlayerGui", 999);
+            GG.cmdm = selff:GetMouse();
+            GG.Backpack = selff.Backpack;
+            GG.selc = selff.Character;
+
+            GG.dist = function( position : Vector3 )
+                return selff:DistanceFromCharacter(position);
+            end;
+
+            GG.Kick = function( text : string )
+                return selff:Kick(text);
+            end;
+
+            GG.Tp2 = function( pos : CFrame )
+                selff.Character.HumanoidRootPart.CFrame = pos;
+                return true;
+            end;
+
+            GG.BlackExec = false;
+
+            local Iden=nil; pcal(function()  Iden = identifyexecutor(); end);
+
+            local IdentifyList : any = {
+                "Solara";
+                "Real";
+                "Private__Win0";
+            };
+
+            if tablef(IdentifyList, Iden) then
+                GG.BlackExec = true;
+            end;
+            if strfind(Iden, "Xeno") then
+                GG.BlackExec = true;
+            end;
+
+            GG.GameId = game.GameId;
+            GG.PlaceId = game.PlaceId;
+
+            GG.HttpGet = function( url : string , bool : boolean )
+                local Sources = nil;
+                local OneRunCall, OneRunError = pcal(function()
+                    Sources = game:HttpGet(url, bool or nil);
+                end);
+                if not OneRunCall then
+                    Sources = game:HttpGet(url, url);
+                end;
+                return Sources;
+            end;
+
+            GG.EnCodeJ = function( obj : Instance )
+                return HttpService:JSONEncode(obj);
+            end;
+            GG.DeCodeJ = function( obj : Instance )
+                return HttpService:JSONDecode(obj);
+            end;
+
+            GG.loadstring2 = loadstring;
+            GG.loadsource = function( source : string )
+                local Returner = nil;
+                for i=1, 3 do
+                    local OneRunC, OneRunE = pcal(function()
+                        Returner = loadstring2(source)();
+                    end);
+                    if OneRunC then
+                        break;
+                    else
+                        warn("[Flow] : loadsource_err : " .. OneRunE);
+                    end;
+                    twait(2);
+                end;
+                return Returner;
+            end;
+
+            GG.setfps = function( number : number )
+                return setfpscap(number);
+            end;
+
+            GG.SetCore = function( title : string , text : string , duration : number )
+                return StarterGui:SetCore("SendNotification", {Title = title,
+                    Text = text,
+                    Duration = duration
+                });
+            end;
+
+            GG.f3x = function()
+                return loadsource(HttpGet("https://raw.githubusercontent.com/infyiff/backup/refs/heads/main/f3x.lua", true))();
+            end;
+
+            GG.dex = function()
+                return loadsource(HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua", true))();
+            end;
+
+            GG.rspy = function()
+                return loadsource(HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/SimpleSpyV3/main.lua", true))();
+            end;
+
+            GG.alogger = function()
+                return loadsource(HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/audiologger.lua", true))();
+            end;
+
+            GG.INFY = function()
+                return loadsource(HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source", true))();
+            end;
+
+            GG.ApPos = function()
+                return setc(tos(selff.Character.HumanoidRootPart.Position));
+            end;
+
+            GG.ApCF = function()
+                return setc(tos(selff.Character.HumanoidRootPart.CFrame));
+            end;
+
+            GG.writePos = function()
+                return writefile("Pos.txt", tos(selff.Character.HumanoidRootPart.Position))
+            end;
+
+            GG.NoMouse = function()
+                UserInputService.MouseIconEnabled = false;
+                return;
+            end;
+
+            GG.All_UI = function(a)
+                for _, v in pir(GetDescendants(game)) do
+                    if IsA(v, "BillboardGui") then
+                        v:Destroy(true); 
+                    end;
+                    if IsA(v, "ScreenGui") then
+                        v.Enabled = a; 
+                    end;
+                end;
+                return;
+            end;
+
+            GG.self_UI = function(a)
+                for _, v in pir(GetDescendants(selff)) do
+                    if IsA(v, "BillboardGui") then
+                        v:Destroy(true); 
+                    end;
+                    if IsA(v, "ScreenGui") then
+                        v.Enabled = a; 
+                    end;
+                end;
+                return;
+            end;
+
+            GG.SendChatTxt = function(a)
+                return TextService.TextChannels.RBXSystem:DisplaySystemMessage(a);
+                -- "[ Flow Script ] <font color='#00ff5e'>Script Load!</font>""
+            end;
+
+            GG.loadScriptFromCache = function( srcName : string , fileName : string , noload : boolean )
+                local cacheFolder = "FlowXS";
+                local versionFile = cacheFolder .. "Version.json";
+                local cacheFile = cacheFolder .. "/" .. fileName;
+    
+                if ALLVersion == nil then
+                    ALLVersion = {};
+                end;
+            
+                if ALLVersion[fileName] == nil then
+                    ALLVersion[fileName] = tos(tick());
+                end;
+            
+                if tick() - ton(ALLVersion[fileName]) >= 600 then
+                    local source = HttpGet(srcName, srcName);
+                    writefile(cacheFile, source);
+    
+                    ALLVersion[fileName] = tos(tick());
+    
+                    local versionContent = EnCodeJ(ALLVersion);
+                    writefile(versionFile, versionContent);
+    
+                    warn("[Flow] : Loaded " .. fileName .. " from GitHub via auto-update");
+    
+                    if noload then
+                        return source
+                    end;
+                    return loadsource(source);
+                else
+                    if isfolder(cacheFolder) then
+                        local cachedSource = isfile(cacheFile) and readfile(cacheFile);
+    
+                        if not cachedSource or not isfile(versionFile) then
+                            local source = HttpGet(srcName, srcName);
+                            writefile(cacheFile, source);
+    
+                            ALLVersion[fileName] = tos(tick());
+                            local versionContent = EnCodeJ(ALLVersion);
+    
+                            writefile(versionFile, versionContent);
+                            warn("[Flow] : Loaded " .. fileName .. " from GitHub");
+    
+                            if noload then
+                                return source
+                            end;
+                            return loadsource(source);
+                        else
+                            warn("[Flow] : Loaded " .. fileName .. " from device and NOT GitHub");
+        
+                            if noload then
+                                return source
+                            end;
+                            return loadsource(cachedSource);
+                        end;
+                    else
+                        return Kick("isfolder check failed, try rejoining before reporting the bug");
+                    end;
+                end;
+            end;
+
+            GG.SecureStart = function()
+
+                if GG.AlreadyDoSecureStart then
+                    GG.LSecureLoad();
+                    GG.DoyouWantToUseThis.ScreenGui.Enabled = true;
+                    return;
+                end;
+            
+                GG.AlreadyDoSecureStart = true;
+            
+                local blur = Instancen("BlurEffect", L);
+                blur.Size = 100;
+                blur.Enabled = true;
+            
+                local ScreenGui = Instancen("ScreenGui");
+                ScreenGui.Parent = selff["PlayerGui"];
+                ScreenGui.ResetOnSpawn = false;
+                ScreenGui.DisplayOrder = 10;
+                ScreenGui.IgnoreGuiInset = true;
+            
+                local BackgroundFrame = Instancen("Frame")
+                BackgroundFrame.Size = UDim2.new(1, 0, 1, 0)
+                BackgroundFrame.BackgroundTransparency = 0
+                BackgroundFrame.Parent = ScreenGui
+                local BackgroundGradient = Instancen("UIGradient")
+                BackgroundGradient.Color = ColorSequence.new({
+                    ColorSequenceKeypoint.new(0, Color3.fromRGB(20, 20, 60)),
+                    ColorSequenceKeypoint.new(1, Color3.fromRGB(80, 20, 100))
+                })
+                BackgroundGradient.Rotation = 45
+                BackgroundGradient.Parent = BackgroundFrame
+                BackgroundFrame.BackgroundTransparency = 0.1
+            
+                local OpeningLine = Instancen("Frame")
+                OpeningLine.Size = UDim2.new(0, 0, 0, 3)
+                OpeningLine.Position = UDim2.new(0, 0, 0.5, 0)
+                OpeningLine.AnchorPoint = Vector2.new(0, 0.5)
+                OpeningLine.BackgroundColor3 = Color3.fromRGB(200, 150, 255)
+                OpeningLine.Parent = ScreenGui
+            
+                local FlowLabel = Instancen("TextLabel")
+                FlowLabel.Size = UDim2.new(0.2, 0, 0.1, 0)
+                FlowLabel.Position = UDim2.new(0.5, 0, 0.45, 0)
+                FlowLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+                FlowLabel.BackgroundTransparency = 1
+                FlowLabel.Text = "<b>Flow</b>"
+                FlowLabel.RichText = true
+                FlowLabel.Font = Enum.Font.SourceSansBold
+                FlowLabel.TextSize = 40
+                FlowLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+                FlowLabel.TextTransparency = 1
+                FlowLabel.Parent = ScreenGui
+            
+                local BoxTop = Instancen("Frame")
+                BoxTop.Size = UDim2.new(0, 0, 0, 3)
+                BoxTop.Position = UDim2.new(0.35, 0, 0.45, 0)
+                BoxTop.BackgroundColor3 = Color3.fromRGB(200, 150, 255)
+                BoxTop.Parent = ScreenGui
+            
+                local BoxTopGradient = Instancen("UIGradient")
+                BoxTopGradient.Transparency = NumberSequence.new({
+                    NumberSequenceKeypoint.new(0, 0),
+                    NumberSequenceKeypoint.new(1, 0)
+                })
+                BoxTopGradient.Offset = Vector2.new(-1, 0)
+                BoxTopGradient.Parent = BoxTop
+            
+                local BoxRight = Instancen("Frame")
+                BoxRight.Size = UDim2.new(0, 3, 0, 0)
+                BoxRight.Position = UDim2.new(0.65, 0, 0.45, 0)
+                BoxRight.BackgroundColor3 = Color3.fromRGB(200, 150, 255)
+                BoxRight.Parent = ScreenGui
+            
+                local BoxBottom = Instancen("Frame")
+                BoxBottom.Size = UDim2.new(0, 0, 0, 3)
+                BoxBottom.Position = UDim2.new(0.65, 0, 0.55, 0)
+                BoxBottom.BackgroundColor3 = Color3.fromRGB(200, 150, 255)
+                BoxBottom.Parent = ScreenGui
+            
+                local BoxLeft = Instancen("Frame")
+                BoxLeft.Size = UDim2.new(0, 3, 0, 0)
+                BoxLeft.Position = UDim2.new(0.35, 0, 0.55, 0)
+                BoxLeft.BackgroundColor3 = Color3.fromRGB(200, 150, 255)
+                BoxLeft.Parent = ScreenGui
+            
+                local WelcomeLabel = Instancen("TextLabel")
+                WelcomeLabel.Size = UDim2.new(0.3, 0, 0.05, 0)
+                WelcomeLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
+                WelcomeLabel.BackgroundTransparency = 1
+                WelcomeLabel.Text = "Welcome <font color='rgb(255,0,0)'>TTJY!</font>"
+                WelcomeLabel.RichText = true
+                WelcomeLabel.Font = Enum.Font.SourceSansBold
+                WelcomeLabel.TextSize = 30
+                WelcomeLabel.AnchorPoint = Vector2.new(0.5,0.5)
+                WelcomeLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+                WelcomeLabel.TextTransparency = 1
+                WelcomeLabel.Parent = ScreenGui
+            
+                local PasswordBox = Instancen("TextBox")
+                PasswordBox.Size = UDim2.new(0.2, 0, 0.05, 0)
+                PasswordBox.Position = UDim2.new(0.5, 0, 0.6, 0)
+                PasswordBox.Text = ""
+                PasswordBox.PlaceholderText = "Password..."
+                PasswordBox.Font = Enum.Font.SourceSans
+                PasswordBox.TextSize = 20
+                PasswordBox.TextColor3 = Color3.fromRGB(200, 200, 200)
+                PasswordBox.TextTransparency = 1
+                PasswordBox.BackgroundTransparency = 1
+                PasswordBox.Parent = ScreenGui
+                local PasswordGradient = Instancen("UIGradient")
+                PasswordGradient.Color = ColorSequence.new({
+                    ColorSequenceKeypoint.new(0, Color3.fromRGB(30, 30, 80)),
+                    ColorSequenceKeypoint.new(1, Color3.fromRGB(120, 60, 160))
+                })
+                PasswordGradient.Parent = PasswordBox
+                local PasswordCorner = Instancen("UICorner")
+                PasswordCorner.CornerRadius = UDim.new(0, 8)
+                PasswordCorner.Parent = PasswordBox
+                local PasswordStroke = Instancen("UIStroke")
+                PasswordStroke.Thickness = 2
+                PasswordStroke.Color = Color3.fromRGB(200, 150, 255)
+                PasswordStroke.Transparency = 1
+                PasswordStroke.Parent = PasswordBox
+            
+                local function animateOpeningLine()
+                    local extend = TweenService:Create(OpeningLine, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {
+                        Size = UDim2.new(1, 0, 0, 3)
+                    })
+                    local fadeOut = TweenService:Create(OpeningLine, TweenInfo.new(0.8, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {
+                        BackgroundTransparency = 1
+                    })
+                    extend:Play()
+                    task.wait(1.3)
+                    fadeOut:Play()
+                end
+            
+                local function animateFlow()
+                    local fadeIn = TweenService:Create(FlowLabel, TweenInfo.new(0.8, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {TextTransparency = 0})
+                    local fadeOut = TweenService:Create(FlowLabel, TweenInfo.new(0.8, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {TextTransparency = 1})
+                    fadeIn:Play()
+                    fadeIn.Completed:Connect(function()
+                        wait(0.5)
+                        fadeOut:Play()
+                    end)
+                end
+            
+                local a1, b1 = BoxTop.Position, BoxTop.Size;
+                local a2, b2 = BoxRight.Position, BoxRight.Size;
+                local a3, b3 = BoxBottom.Position, BoxBottom.Size;
+                local a4, b4 = BoxLeft.Position, BoxLeft.Size;
+            
+                local function animateBox(i)
+                    BoxTop.Position = a1
+                    BoxTop.Size = b1
+                    
+                    BoxRight.Position = a2
+                    BoxRight.Size = b2
+                    
+                    BoxBottom.Position = a3
+                    BoxBottom.Size = b3
+                    
+                    BoxLeft.Position = a4
+                    BoxLeft.Size = b4
+            
+                    local topTween = TweenService:Create(BoxTop, TweenInfo.new(0.2, Enum.EasingStyle.Linear), {
+                        Size = UDim2.new(0.3, 0, 0, 3)
+                    })
+            
+                    local topDisappearTween = TweenService:Create(BoxTop, TweenInfo.new(0.2, Enum.EasingStyle.Linear), {
+                        Position = UDim2.new(BoxTop.Position.X.Scale + 0.3, BoxTop.Position.X.Offset, BoxTop.Position.Y.Scale, BoxTop.Position.Y.Offset),
+                        Size = UDim2.new(0, 0, 0, 3)
+                    })
+            
+                    local rightTween = TweenService:Create(BoxRight, TweenInfo.new(0.1, Enum.EasingStyle.Linear), {
+                        Size = UDim2.new(0, 3, 0.1, 0)
+                    })
+            
+                    local rightDisappearTween = TweenService:Create(BoxRight, TweenInfo.new(0.1, Enum.EasingStyle.Linear), {
+                        Position = UDim2.new(BoxRight.Position.X.Scale, BoxRight.Position.X.Offset, BoxRight.Position.Y.Scale + 0.1, BoxRight.Position.Y.Offset),
+                        Size = UDim2.new(0, 3, 0, 0)
+                    })
+            
+                    local bottomTween = TweenService:Create(BoxBottom, TweenInfo.new(0.2, Enum.EasingStyle.Linear), {
+                        Size = UDim2.new(-0.3, 0, 0, 3)
+                    })
+            
+                    local bottomDisappearTween = TweenService:Create(BoxBottom, TweenInfo.new(0.2, Enum.EasingStyle.Linear), {
+                        Position = UDim2.new(BoxBottom.Position.X.Scale - 0.3, BoxBottom.Position.X.Offset, BoxBottom.Position.Y.Scale, BoxBottom.Position.Y.Offset),
+                        Size = UDim2.new(0, 0, 0, 3)
+                    })
+            
+                    local leftTween = TweenService:Create(BoxLeft, TweenInfo.new(0.1, Enum.EasingStyle.Linear), {
+                        Size = UDim2.new(0, 3, -0.1, 0)
+                    })
+            
+                    local leftDisappearTween = TweenService:Create(BoxLeft, TweenInfo.new(0.1, Enum.EasingStyle.Linear), {
+                        Position = UDim2.new(BoxLeft.Position.X.Scale, BoxLeft.Position.X.Offset, BoxLeft.Position.Y.Scale - 0.1, BoxLeft.Position.Y.Offset),
+                        Size = UDim2.new(0, 3, 0, 0)
+                    })
+            
+                    local fadeOutTop = TweenService:Create(BoxTop, TweenInfo.new(0.3, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {BackgroundTransparency = 1})
+                    local fadeOutRight = TweenService:Create(BoxRight, TweenInfo.new(0.3, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {BackgroundTransparency = 1})
+                    local fadeOutBottom = TweenService:Create(BoxBottom, TweenInfo.new(0.3, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {BackgroundTransparency = 1})
+                    local fadeOutLeft = TweenService:Create(BoxLeft, TweenInfo.new(0.3, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {BackgroundTransparency = 1})
+            
+                    topTween:Play()
+                    topTween.Completed:Connect(function()
+                        rightTween:Play()
+                        if i <= 3 then
+                            topDisappearTween:Play() end;
+                    end)
+                    rightTween.Completed:Connect(function()
+                        bottomTween:Play()
+                        if i <= 3 then
+                        rightDisappearTween:Play(); end;
+                    end)
+                    bottomTween.Completed:Connect(function()
+                        leftTween:Play();
+                        if i <= 3 then
+                        bottomDisappearTween:Play(); end;
+                    end)
+                    leftTween.Completed:Connect(function()
+                        if i <= 3 then
+                        leftDisappearTween:Play(); end;
+                    end)
+                    if i <= 3 then
+                    leftDisappearTween.Completed:Wait(); end;
+            
+                    if i > 3 then
+                        return task.spawn(function()
+                            task.wait(0.8);
+                            fadeOutTop:Play()
+                            fadeOutRight:Play()
+                            fadeOutBottom:Play()
+                            fadeOutLeft:Play()
+                        end);
+                    end;
+            
+                    return task.wait();
+                end
+            
+                local function animateWelcome()
+                    local fadeIn = TweenService:Create(WelcomeLabel, TweenInfo.new(0.8, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {TextTransparency = 0})
+                    local fadeOut = TweenService:Create(WelcomeLabel, TweenInfo.new(0.8, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {TextTransparency = 1})
+                    fadeIn:Play()
+                    fadeIn.Completed:Connect(function()
+                        task.wait(0.5)
+                        fadeOut:Play()
+                    end)
+                end
+            
+                local function animatePassword()
+                    local fadeBox = TweenService:Create(PasswordBox, TweenInfo.new(0.8, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {TextTransparency = 0, BackgroundTransparency = 0})
+                    local strokeBox = TweenService:Create(PasswordStroke, TweenInfo.new(0.8, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Transparency = 0})
+                    fadeBox:Play()
+                    strokeBox:Play()
+                end
+            
+                animateFlow()
+                animateOpeningLine()
+                wait(2.1)
+                for i=1, 4 do
+                    if i == 2 then
+                        task.spawn(function()
+                            GG.LSecureLoad();
+                        end);
+                    end
+                    animateBox(i)
+                end;
+                task.wait(0.5)
+                animateWelcome()
+                task.wait(2.1)
+            
+                --[[
+                animatePassword()
+            
+                -- Handle password input: Destroy everything on Enter
+                PasswordBox.FocusLost:Connect(function(enterPressed)
+                    if enterPressed then
+                        ScreenGui:Destroy()
+                    end
+                end)
+            
+                --]]
+            
+                BackgroundFrameANim = TweenService:Create(BackgroundFrame, TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {BackgroundTransparency = 1})
+                BackgroundFrameANim:Play();
+                BackgroundFrameANim.Completed:Wait(0.1);
+                blur:Destroy(true)
+                ScreenGui:Destroy(true);
+            
+                if GG and GG.DoyouWantToUseThis then
+                    GG.DoyouWantToUseThis.ScreenGui.Enabled = true;
+                end;
+            end;
+
+            GG.getCFrameAsString = function(cframe)
+                return concat({cframe:GetComponents()},",");
+            end;
+
+            GG.getCFrameFromString = function(str)
+                return CF(unpack(str:split(",")));
+            end;
+        end);
+
+        if GlobalOneRunCall then
+            GG.AlreadyLoadMain = true;
+            break;
+        else
+            if i == 3 then
+                game:GetService("Players"):Kick("Please report this bug to discord server and provide your executor. : " .. GlobalOneRunError);
+            end;
+        end;
+    end;
+end;
+
+------------- UI Updater -------------
+
+if not isfolder or not isfile or not makefolder or not writefile or not readfile then
+    Kick("Your executor doesn't support file system.");
+end;
+
+if not isfolder("FlowXS") then
+    makefolder("FlowXS");
+end;
+if not isfile("FlowXS/UIUpdater.lua") then
+    if isfile("FlowXS/UI_P.lua") then
+        delfile("FlowXS/UI_P.lua");
+        writefile("FlowXS/UIUpdater.lua", "Verified by TTJY");
+    else
+        writefile("FlowXS/UIUpdater.lua", "Verified by TTJY");
+    end;
+end;
+
+
+------------- Game Asset -------------
+
+if GameId == 1235188606 and not GG.FoodList then -- DA
+    GG.FoodList = {"GreenAngelfish","PricklyPear","Avacado","BlueFish","Long-Nose","DesertRay","JuniperBerry","Apple","Kelp","Bacon","SabertoothWhale","SnowMinnow","Cherry","TitanScaleShark","GlowingMushroom","BrownFish","CandyCane","Pineapple","SandFish","Pear","Pumpkin","SunOrange","RainbowPirahna","RainbowArapaima","Chili","Meat","Lime","GreatWhiteShark","CottonCandy","Carrot","PinkAngelfish","GlowRay","GreatHornedEel","BlueWhale","JungleFish","GoldenDragonfruit","DragonFin","Goldfish","ToxicEel","Grapes","Blueberry","Strawberry","SunWhale","Almond","Peach","Lemon","Mushroom","SpeckledMantaRay","Dragonfruit","GoldenPear","GemtoothedPiranha","Onion","Coconut","GoldenApple","Corn","GrasslandFish","CandyCorn","RadioactiveSquid","CacaoBean","Banana","HoloMantaRay","Watermelon","Potato","SunriseCrab","Broccoli","DeepSeaCrab","Mothback","AncientSquid"};
+    GG.HealList = {"DragonRevivalHeart","BasicHealingPotion","RevivalHeart","MagicalBandages","DragonscaleBandages","Bandages","GoldenRevivalHeart","DragonBreathHealingPotion","GemstoneHealingPotion"};
+    GG.WorldList = {"Jungle","Undercity","Ocean","Desert","Prehistoric","Grassland","Fantasy","Toxic","Volcano","Lobby","Tundra"};
+end;
+
+if GameId == 5750914919 and not GG.ZoneList then -- Fisch
+    GG.Item_2 = {"Bait Crate", "Quality Bait Crate", "Coral Geode", "Common Crate", "Crab Cage", "Carbon Crate"};
+
+    if PlaceId == 16732694052 then
+        GG.Zone = {
+            ["None"] = nil;
+            ['Forsaken Shores'] = CF(-2509.84766, 135.58136, 1568.06921, 0.576484084, -2.90220239e-08, 0.817108393, -2.91917193e-08, 1, 5.61132225e-08, -0.817108393, -5.6201177e-08, 0.576484084);
+            ['Roslit Bay'] = CF(-1472.76562, 132.525513, 710.11377, 0.857699811, 3.99945321e-08, -0.514150798, -4.50792648e-08, 1, 2.58689425e-09, 0.514150798, 2.09587618e-08, 0.857699811);
+            ['Sunstone Island'] = CF(-916.835876, 135.842087, -1125.71436, -0.770310819, -9.40425782e-09, 0.63766855, -4.71950168e-09, 1, 9.04666653e-09, -0.63766855, 3.95926758e-09, -0.770310819);
+            ['Moosewood'] = CF(387.319153, 134.500031, 255.297958, 0.99990648, -5.88508762e-08, 0.0136754476, 5.73468562e-08, 1, 1.10371673e-07, -0.0136754476, -1.09577101e-07, 0.99990648);
+            ['Snowcap Island'] = CF(2597.84912, 135.283859, 2417.89453, 0.320652425, -7.56810294e-08, -0.94719696, 4.79189168e-08, 1, -6.36781081e-08, 0.94719696, -2.49701131e-08, 0.320652425);
+            ['Terrapin Island'] = CF(-167.348587, 145.085602, 1938.59583, -0.304156363, 1.14892146e-07, 0.952622116, -1.4166246e-09, 1, -1.2105852e-07, -0.952622116, -3.81702243e-08, -0.304156363);
+            ['Statue Of Sovereignty'] = CF(20.0280285, 159.014709, -1041.87463, 0.718164384, 6.87932982e-08, 0.695873499, -1.21948913e-08, 1, -8.62733884e-08, -0.695873499, 5.34723732e-08, 0.718164384);
+            ['Vertigo'] = CF(-112.719063, -515.299377, 1136.88416, -0.924575984, 5.51628148e-08, 0.380997658, 6.49570424e-08, 1, 1.28476128e-08, -0.380997658, 3.66270783e-08, -0.924575984);
+            ['The Depths'] = CF(945.280334, -711.662109, 1259.22156, -0.172736004, 1.49195341e-08, -0.984968185, 2.28289156e-08, 1, 1.11436682e-08, 0.984968185, -2.05608437e-08, -0.172736004);
+            ['Mushgrove Swamp'] = CF(2445.54224, 130.904053, -679.550842, -0.870547235, 1.35535743e-08, -0.492084801, 1.40879317e-08, 1, 2.62020516e-09, 0.492084801, -4.65144501e-09, -0.870547235);
+            ['Desolate Deep'] = CF(-1656.29468, -213.779953, -2849.88428, -0.523361683, 9.58157642e-08, 0.852110624, 2.75531846e-08, 1, -9.55222035e-08, -0.852110624, -2.65143001e-08, -0.523361683);
+            ['Enchant Room'] = CF(1308.28259, -805.292236, -98.5643768, -0.992340386, -1.97533989e-08, -0.123533793, -2.072494e-08, 1, 6.5795378e-09, 0.123533793, 9.08937103e-09, -0.992340386);
+            ['Roslit Volcano'] = CF(-1964.21582, 192.653046, 274.950195, 0.598745048, -3.8554524e-09, -0.800939679, 9.67569935e-09, 1, 2.41943932e-09, 0.800939679, -9.19827947e-09, 0.598745048);
+            ['Brine Pool'] = CF(-1787.59717, -118.740646, -3384.49683, -1, 0, 0, 0, 1, 0, 0, 0, -1);
+            ['The Arch'] = CF(1007.4986, 131.516281, -1267.97058, 0.980580807, -9.53307833e-09, 0.196115628, 1.04557296e-08, 1, -3.66930708e-09, -0.196115628, 5.64858382e-09, 0.980580807);
+            ['Ancient Isles'] = CF(6063.52002, 195.18013, 285.97113, -0.00490061752, -5.11460669e-08, -0.999988019, 2.93520017e-08, 1, -5.12905238e-08, 0.999988019, -2.96030045e-08, -0.00490061752);
+            ['Rod Crafting'] = CF(-3161.23511, -747.214539, 1701.67944, 0.999994099, -2.56897152e-08, -0.00343629811, 2.55435548e-08, 1, -4.25783249e-08, 0.00343629811, 4.24902993e-08, 0.999994099);
+            ['Ancient Waterfall'] = CF(5800.40088, 135.301468, 406.355682, 0.421890169, 4.07270395e-09, -0.906646967, -2.43030374e-09, 1, 3.36115691e-09, 0.906646967, 7.85388532e-10, 0.421890169);
+            ['Snow Globe'] = CF(-101.126625, 364.635834, -9492.83594, 0.54968226, -3.44239446e-08, -0.835373819, 5.55941746e-08, 1, -4.62644545e-09, 0.835373819, -4.38988437e-08, 0.54968226);
+            ['Northern Summit'] = CF(19535.4453, 132.670074, 5293.35547, -0.824248374, 5.19136591e-08, -0.566228449, -8.73330208e-09, 1, 1.0439615e-07, 0.566228449, 9.0993403e-08, -0.824248374);
+            ['Glacial Grotto'] = CF(20015.3262, 1136.42773, 5531.2583, 0.100680023, -9.49732311e-08, 0.994918883, 6.66767193e-08, 1, 8.87109692e-08, -0.994918883, 5.74065027e-08, 0.100680023);
+            ['Cryogenic Canal'] = CF(20130, 670, 5486);
+            ['Frigid Cavern'] = CF(19842, 438, 5617);
+            ['Grand Reef'] = CF(-3580.25952, 150.961731, 515.507812, 0.856589258, -1.12539942e-08, 0.51599884, -1.97214476e-08, 1, 5.45489094e-08, -0.51599884, -5.69022554e-08, 0.856589258);
+            ["The Keeper's Secret"] = CF(2234.27417, -803.432434, 1039.79907, -0.998775959, -4.6916262e-09, -0.0494634397, -4.51018156e-09, 1, -3.77987508e-09, 0.0494634397, -3.55215901e-09, -0.998775959);
+            ['Atlantis'] = CF(-4265.98584, -603.404907, 1806.15125, 0.464910418, -6.12515816e-09, -0.885357738, -2.05190442e-08, 1, -1.7693047e-08, 0.885357738, 2.63923763e-08, 0.464910418);
+            ['Poseidon Temple'] = CF(-4282.82715, -693.05365, 1204.92334, 0.998643398, 2.88506762e-05, 0.0520713031, -2.95630034e-05, 1, 1.29096179e-05, -0.0520713031, -1.44314881e-05, 0.998643398);
+            ['Sunken Trial'] = CF(-4595.85889, -596.753723, 1844.1123, -0.0303665847, 7.45292468e-08, 0.999538839, 8.28561539e-08, 1, -7.20464115e-08, -0.999538839, 8.06301443e-08, -0.0303665847);
+            ['Zeus Trial'] = CF(-4296.24512, -673.110168, 2355.8833, -0.999945164, 1.22608945e-08, -0.010471506, 1.25401503e-08, 1, -2.66024731e-08, 0.010471506, -2.67323284e-08, -0.999945164);
+            ['Kraken Pool'] = CF(-4388.7168, -996.260559, 2048.71875, -0.0272272266, -5.29545829e-08, -0.999629259, 1.02027897e-08, 1, -5.32521192e-08, 0.999629259, -1.16489156e-08, -0.0272272266);
+            ['Harvesters Spike'] = CF(-1323.09863, 140.746323, 1533.56665, -0.578425586, 5.67408946e-08, -0.815735161, 7.57453194e-08, 1, 1.58481122e-08, 0.815735161, -5.26211679e-08, -0.578425586);
+            ['Oil Stage'] = CF(-1843.65869, 131.412598, -479.158661, 0.0429222547, -6.43463665e-08, -0.999078393, 5.30679571e-08, 1, -6.21258209e-08, 0.999078393, -5.03524689e-08, 0.0429222547);
+            ['Veil of Forsaken'] = CF(-2356.34619, -11186.4062, 7156.29834, 0.897568583, 5.98510468e-08, -0.440874815, -7.81419232e-08, 1, -2.33324577e-08, 0.440874815, 5.539329e-08, 0.897568583);
+            ['Calm Zone'] = CF(-4318.9873, -11182.6436, 4148.15967, -0.999122798, -9.22155934e-08, 0.0418767631, -9.03352415e-08, 1, 4.67944687e-08, -0.0418767631, 4.29704734e-08, -0.999122798);
+            ['Abyssal Zenith'] = CF(-13503.207, -11050.1904, 127.130402, -0.923080325, 2.38706548e-08, -0.384607196, 1.32646392e-08, 1, 3.02290957e-08, 0.384607196, 2.28022063e-08, -0.923080325);
+            ['Volcanic Vents'] = CF(-3398.62061, -2259.45557, 3867.06323, -0.987024605, 9.03834234e-08, -0.160569221, 9.4491206e-08, 1, -1.79468884e-08, 0.160569221, -3.28863976e-08, -0.987024605);
+            ['Volcanic Pool'] = CF(-3188.64307, -2039.21497, 4034.61401, -0.870700479, -5.9605533e-08, 0.491813689, -6.47429559e-08, 1, 6.57527766e-09, -0.491813689, -2.61163748e-08, -0.870700479);
+            ['Challengers Deep'] = CF(-779.285706, -3283.21167, -660.240417, 0.904380858, -3.35075576e-08, -0.426726282, 3.498414e-08, 1, -4.37885328e-09, 0.426726282, -1.09685008e-08, 0.904380858);
+            ['Challengers Pool'] = CF(673.111084, -3342.52832, -1550.98267, 0.785640836, -6.39279563e-08, -0.618682861, 7.62737074e-09, 1, -9.3643429e-08, 0.618682861, 6.8851179e-08, 0.785640836);
+        };
+    else
+        GG.Zone = {
+            ["None"] = nil;
+            ['Waveborne'] = CF(417.711853, 85.9225388, 881.759888, -0.99874568, -4.44920278e-09, -0.0500709601, -4.00334432e-09, 1, -9.00482355e-09, 0.0500709601, -8.79307649e-09, -0.99874568);
+            ['The Cursed Shores'] = CF(-273.730743, 80.9225388, 2069.65063, 0.463293225, 5.06966558e-08, 0.886205018, -3.85196444e-08, 1, -3.70690358e-08, -0.886205018, -1.69624705e-08, 0.463293225);
+            ['Azure Lagoon'] = CF(1369.70361, 78.5178604, 2422.96851, 0.995362639, 1.01474233e-08, 0.0961936414, -1.28302737e-08, 1, 2.72715717e-08, -0.0961936414, -2.83792936e-08, 0.995362639);
+            ['Emberreach Beach'] = CF(2336.19604, 85.4433594, 431.468353, 0.383652836, 4.39287255e-08, 0.923477411, -6.90110511e-08, 1, -1.88986089e-08, -0.923477411, -5.64796423e-08, 0.383652836);
+            ['Emberreach Pond'] = CF(2769.16919, 162.443329, 485.833282, -0.0678273439, 4.8380965e-08, -0.997697055, -4.20065014e-08, 1, 5.13484046e-08, 0.997697055, 4.53925892e-08, -0.0678273439);
+            ['Lushgrove River'] = CF(1118.39746, 90.0915604, -799.172058, 0.109736085, -1.79720891e-10, 0.993960738, 1.942011e-10, 1, 1.59372501e-10, -0.993960738, 1.75539347e-10, 0.109736085);
+            ['Lushgrove Island'] = CF(1108.98206, 80.5338058, -493.072296, -0.987392783, 7.01320391e-10, 0.158289239, 6.27804031e-10, 1, -5.14445653e-10, -0.158289239, -4.08585277e-10, -0.987392783);
+            ['Isle of New Beginnings'] = CF(-288.014709, 78.3774338, -488.018524, 0.0774141029, -4.57045459e-08, -0.996999025, -2.91271736e-08, 1, -4.81037574e-08, 0.996999025, 3.27636727e-08, 0.0774141029);
+            ['Pine Shoal'] = CF(1185.96655, 84.3502121, 434.794891, 0.21814318, -8.41467127e-08, 0.975916803, -3.42509736e-08, 1, 9.38792439e-08, -0.975916803, -5.39052145e-08, 0.21814318);
+            ['Open Ocean'] = CF(3110.61328, 77.0230026, 2468.79346, 0.876811385, -3.20856905e-08, 0.480834454, 3.43865842e-08, 1, 4.02454647e-09, -0.480834454, 1.30054865e-08, 0.876811385);
+            ['Under Open Ocean'] = CF(3110.61328, 33.0230026, 2468.79346, 0.876811385, -3.20856905e-08, 0.480834454, 3.43865842e-08, 1, 4.02454647e-09, -0.480834454, 1.30054865e-08, 0.876811385);
+        };
+    end;
+
+    GG.EnchantmentInfos= {
+        ["None"] = nil;
+        ["Blessed Song"] = {
+            Description = "Makes progress speed 10% faster";
+            Color = fromRGB(0, 170, 255);
+            StrokeColor = fromRGB(0, 60, 90);
+            Display = "Blessed Song";
+            StatIncrease = 10;
+            IsSongOfTheDeep = true;
+        };
+        ["Sea King"] = {
+            Description = "Makes fish 10% bigger";
+            Color = fromRGB(53, 77, 211);
+            StrokeColor = fromRGB(9, 13, 35);
+            Display = "Sea King";
+            StatIncrease = 10;
+            IsExalted = false;
+        };
+        Swift = {
+            Description = "Decreases lure time by 30%";
+            Color = fromRGB(181, 227, 229);
+            StrokeColor = fromRGB(40, 50, 50);
+            Display = "Swift";
+            StatIncrease = 30;
+            IsExalted = false;
+        };
+        Long = {
+            Description = "Increases line distance by 50 studs";
+            Color = fromRGB(223, 165, 64);
+            StrokeColor = fromRGB(33, 25, 14);
+            Display = "Long";
+            StatIncrease = 50;
+            IsExalted = false;
+        };
+        Ghastly = {
+            Description = "20% chance for a fish to be Translucent";
+            Color = fromRGB(129, 223, 173);
+            StrokeColor = fromRGB(46, 79, 61);
+            Display = "Ghastly";
+            StatIncrease = 20;
+            IsExalted = false;
+        };
+        Lucky = {
+            Description = "Increases luck by 20%";
+            Color = fromRGB(126, 229, 164);
+            StrokeColor = fromRGB(25, 45, 32);
+            Display = "Lucky";
+            StatIncrease = 20;
+            IsExalted = false;
+        };
+        Divine = {
+            Description = "Increases luck by 45%";
+            Color = fromRGB(198, 229, 220);
+            StrokeColor = fromRGB(118, 135, 132);
+            Display = "Divine";
+            StatIncrease = 45;
+            IsExalted = false;
+        };
+        Mutated = {
+            Description = "Increases mutation luck by 7%";
+            Color = fromRGB(147, 229, 112);
+            StrokeColor = fromRGB(45, 58, 39);
+            Display = "Mutated";
+            StatIncrease = 7;
+            IsExalted = false;
+        };
+        Unbreakable = {
+            Description = "Increases strength by 10,000kg";
+            Color = fromRGB(225, 179, 229);
+            StrokeColor = fromRGB(16, 13, 16);
+            Display = "Unbreakable";
+            StatIncrease = 10000;
+            IsExalted = false;
+        };
+        Herculean = {
+            Description = "Increases strength by 25,000kg";
+            Color = fromRGB(255, 234, 0);
+            StrokeColor = fromRGB(48, 43, 0);
+            Display = "Herculean";
+            StatIncrease = 25000;
+            IsExalted = false;
+        };
+        Steady = {
+            Description = "Reduces progress loss by 25% when fishing";
+            Color = fromRGB(229, 207, 191);
+            StrokeColor = fromRGB(21, 19, 18);
+            Display = "Steady";
+            StatIncrease = 25;
+            IsExalted = false;
+        };
+        Blessed = {
+            Description = "Increases shiny & sparkling chances by 2%";
+            Color = fromRGB(255, 79, 164);
+            StrokeColor = fromRGB(42, 20, 34);
+            Display = "Blessed";
+            StatIncrease = 2;
+            IsExalted = false;
+        };
+        Wormhole = {
+            Description = "45% chance to catch a fish from a random place";
+            Color = fromRGB(145, 90, 255);
+            StrokeColor = fromRGB(13, 8, 22);
+            Display = "Wormhole";
+            StatIncrease = 45;
+            IsExalted = false;
+        };
+        Resilient = {
+            Description = "Increased resilience by 35%";
+            Color = fromRGB(106, 255, 198);
+            StrokeColor = fromRGB(17, 29, 25);
+            Display = "Resilient";
+            StatIncrease = 35;
+            IsExalted = false;
+        };
+        Controlled = {
+            Description = "Increased rod control bar size";
+            Color = fromRGB(175, 155, 255);
+            StrokeColor = fromRGB(32, 28, 39);
+            Display = "Controlled";
+            StatIncrease = 0.05;
+            IsExalted = false;
+        };
+        Storming = {
+            Description = "Luck is increased by 95% during a rainy day";
+            Color = fromRGB(255, 236, 131);
+            StrokeColor = fromRGB(36, 36, 24);
+            Display = "Storming";
+            StatIncrease = 95;
+            IsExalted = false;
+        };
+        Scrapper = {
+            Description = "60% chance to not consume bait";
+            Color = fromRGB(255, 155, 83);
+            StrokeColor = fromRGB(36, 23, 13);
+            Display = "Scrapper";
+            StatIncrease = 60;
+            IsExalted = false;
+        };
+        Breezed = {
+            Description = "Luck is increased by 65% during a windy day";
+            Color = fromRGB(188, 208, 255);
+            StrokeColor = fromRGB(28, 30, 36);
+            Display = "Breezed";
+            StatIncrease = 65;
+            IsExalted = false;
+        };
+        Insight = {
+            Description = "1.5X XP after catching a fish";
+            Color = fromRGB(128, 255, 114);
+            StrokeColor = fromRGB(29, 36, 27);
+            Display = "Insight";
+            StatIncrease = 1.5;
+            IsExalted = false;
+        };
+        Clever = {
+            Description = "2.25X XP after catching a fish";
+            Color = fromRGB(255, 110, 166);
+            StrokeColor = fromRGB(36, 18, 24);
+            Display = "Clever";
+            StatIncrease = 2.25;
+            IsExalted = false;
+        };
+        Noir = {
+            Description = "Caught fish have a 50% chance to be Albino or Darkened.";
+            Color = fromRGB(255, 255, 255);
+            StrokeColor = fromRGB(0, 0, 0);
+            Display = "Noir";
+            StatIncrease = 50;
+            IsExalted = false;
+        };
+        Hasty = {
+            Description = "Decreases lure time by 55%";
+            Color = fromRGB(229, 209, 92);
+            StrokeColor = fromRGB(50, 42, 12);
+            Display = "Hasty";
+            StatIncrease = 55;
+            IsExalted = false;
+        };
+        Quality = {
+            Description = "Increases luck by 15%, Resilience by 5%, and Lure Speed by 15%";
+            Color = fromRGB(158, 255, 55);
+            StrokeColor = fromRGB(56, 90, 19);
+            Display = "Quality";
+            StatIncrease = 0;
+            IsExalted = false;
+        };
+        Abyssal = {
+            Description = "Caught fish have a 10% chance to be Abyssal.";
+            Color = fromRGB(39, 57, 173);
+            StrokeColor = fromRGB(83, 41, 173);
+            Display = "Abyssal";
+            StatIncrease = 10;
+            IsExalted = false;
+        };
+        Mystical = {
+            Description = "Increased resilience by 45%";
+            Color = fromRGB(194, 223, 255);
+            StrokeColor = fromRGB(43, 50, 57);
+            Display = "Mystical";
+            StatIncrease = 45;
+            IsExalted = true;
+        };
+        Quantum = {
+            Description = "Caught fish have a 25% chance to be Subspace.";
+            Color = fromRGB(255, 0, 179);
+            StrokeColor = fromRGB(49, 0, 36);
+            Display = "Quantum";
+            StatIncrease = 25;
+            IsExalted = true;
+        };
+        Invincible = {
+            Description = "Allows fishing in any body of liquid.";
+            Color = fromRGB(255, 98, 25);
+            StrokeColor = fromRGB(35, 13, 3);
+            Display = "Invincible";
+            StatIncrease = 0;
+            IsExalted = true;
+        };
+        Piercing = {
+            Description = "Rod has a chance to stab fish while reeling.";
+            Color = fromRGB(13, 167, 141);
+            StrokeColor = fromRGB(3, 40, 33);
+            Display = "Piercing";
+            StatIncrease = 0;
+            IsExalted = true;
+        };
+        Anomalous = {
+            Description = "Caught fish have a 10% chance to be duplicated and Anomalous";
+            Color = fromRGB(255, 29, 29);
+            StrokeColor = fromRGB(35, 4, 4);
+            Display = "Anomalous";
+            StatIncrease = 0;
+            IsExalted = true;
+        };
+        ["Sea Overlord"] = {
+            Description = "Makes fish 25% bigger";
+            Color = fromRGB(51, 168, 211);
+            StrokeColor = fromRGB(9, 29, 35);
+            Display = "Sea Overlord";
+            StatIncrease = 25;
+            IsExalted = true;
+        };
+        Immortal = {
+            Description = "Increases luck by 75%";
+            Color = fromRGB(232, 217, 255);
+            StrokeColor = fromRGB(69, 65, 76);
+            Display = "Immortal";
+            StatIncrease = 75;
+            IsExalted = true;
+        };
+    };
+
+    GG.EnchantmentList = {};
+    for _, v in pir(EnchantmentInfos) do
+        tablein(EnchantmentList, _);
+    end;
+    sort(EnchantmentList);
+
+    GG.ZoneList = {};
+    for _, v in pir(Zone) do
+        tablein(ZoneList, _);
+    end;
+    sort(ZoneList);
+end;
+
+------------- FlowXS -------------
+
+GG.ALLVersion = (isfile("FlowXSVersion.json") and readfile("FlowXSVersion.json")) and DeCodeJ(readfile("FlowXSVersion.json")) or {["MagicCity"] = true};
+if ALLVersion["MainLoader"] == nil then
+    ALLVersion["MainLoader"] = tos(tick());
+end;
+
+------------- LPH Fixer -------------
+
+local fix_lph : any = loadstring([[
+    if true then
+        local Bitch = function(...) return ... end;
+        getgenv().LPH_NO_VIRTUALIZE = LPH_NO_VIRTUALIZE or Bitch;
+    end;
+]]);
+fix_lph();
+
+------------- WindUI Cache -------------
+
+GG.LoadWindUI = function()
+
+    local OriginLoadstring : any = GG.loadstring;
+    local count : boolean = 0;
+
+    GG.loadstring = function(...) 
+        count = count + 1;
+        if count == 1 then
+            GG.loadstring = OriginLoadstring;
+            local R = loadScriptFromCache("https://raw.githubusercontent.com/Yumiara/FlowRewrite/refs/heads/main/Asset/IconaMain.lua", "IconaMain");
+            return R;
+        end;
+    end;
+
+    local WindUI = loadScriptFromCache("https://raw.githubusercontent.com/Yumiara/FlowRewrite/refs/heads/main/Asset/IconaWind", "WindUI");
+
+    GG.loadstring = OriginLoadstring;
+
+    return WindUI
+end;
+
+warn("[Flow] : Loaded Main.lua via execution")
+
+------------- Source Loader -------------
+GG.API_Only = true
+if GG.API_Only then return; end;
+
+local srcName : string = "https://raw.githubusercontent.com/Yumiara/Overflow/refs/heads/main/API_P";
+loadScriptFromCache(srcName, "API_P");
