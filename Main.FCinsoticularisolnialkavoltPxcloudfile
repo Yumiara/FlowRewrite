@@ -19,6 +19,7 @@ GG.LoaderSettings = GG.LoaderSettings or {
 
 GG.APINUMBER = "Luarify 2.9";
 
+GG.Uni = "https://raw.githubusercontent.com/Yumiara/FlowRewrite/refs/heads/main/listfiles/Universal.lua";
 GG.API_K = "https://raw.githubusercontent.com/Yumiara/FlowRewrite/refs/heads/main/API_K.lua";
 
 if not GG.AlreadyLoadMain then
