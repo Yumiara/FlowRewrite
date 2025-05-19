@@ -213,6 +213,8 @@ elseif GameId == 1430993116 then -- Test
     scrName = GG.API_K;
 elseif GameId == 994732206 then -- Bloxfruit
     scrName = GG.API_K;
+else
+    scrName = GG.Uni;
 end;
 
 -- Credits to Sevensenz
@@ -411,35 +413,35 @@ if scrName then
 			ALLVersion[scrNameX] = tos(tick());
 		end;
 		if tick() - ton(ALLVersion[scrNameX]) >= 600 then
-            SourceXS = HttpGet(scrName)
-            writefile("FlowXS/" .. scrNameX .. ".lua", SourceXS);
-
-            ALLVersion[scrNameX] = tos(tick());
-            ContentsXSV = EnCodeJ(ALLVersion);
-
-            writefile("FlowXSVersion.json", ContentsXSV);
-            warn("[Flow] : Loaded API_K from github via auto update");
-
-            loadsource(SourceXS);
+		    SourceXS = HttpGet(scrName)
+		    writefile("FlowXS/" .. scrNameX .. ".lua", SourceXS);
+	
+		    ALLVersion[scrNameX] = tos(tick());
+		    ContentsXSV = EnCodeJ(ALLVersion);
+	
+		    writefile("FlowXSVersion.json", ContentsXSV);
+		    warn("[Flow] : Loaded API_K from github via auto update");
+	
+		    loadsource(SourceXS);
 		else
-            APISource = isfile("FlowXS/" .. scrNameX .. ".lua") and readfile("FlowXS/" .. scrNameX .. ".lua");
-
-            if not APISource or not isfile("FlowXSVersion.json") then
-                SourceXS = HttpGet(scrName);
-                writefile("FlowXS/" .. scrNameX .. ".lua", SourceXS, SourceXS);
-
-                ALLVersion[scrNameX] = tos(tick());
-                ContentsXSV = EnCodeJ(ALLVersion);
-
-                writefile("FlowXSVersion.json", ContentsXSV);
-                warn("[Flow] : Loaded API_K from github");
-
-                loadsource(SourceXS);
-            else
-
-                warn("[Flow] : Loaded API_K from device and NOT github");
-                loadsource(APISource);
-            end;
+		    APISource = isfile("FlowXS/" .. scrNameX .. ".lua") and readfile("FlowXS/" .. scrNameX .. ".lua");
+	
+		    if not APISource or not isfile("FlowXSVersion.json") then
+			SourceXS = HttpGet(scrName);
+			writefile("FlowXS/" .. scrNameX .. ".lua", SourceXS, SourceXS);
+	
+			ALLVersion[scrNameX] = tos(tick());
+			ContentsXSV = EnCodeJ(ALLVersion);
+	
+			writefile("FlowXSVersion.json", ContentsXSV);
+			warn("[Flow] : Loaded API_K from github");
+	
+			loadsource(SourceXS);
+		    else
+	
+			warn("[Flow] : Loaded API_K from device and NOT github");
+			loadsource(APISource);
+		    end;
 		end;
 	else
 		SourceXS = HttpGet(scrName);
