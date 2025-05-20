@@ -85,6 +85,9 @@ if not GG.AlreadyLoadMain then
             GG.concat = table.concat;
             GG.unpack = table.unpack;
 
+            GG.LowerC = hookfunction or hookfunc;
+            GG.UpperC = hookmetamethod;
+
             GG.IsA = function( object : any , class : string )
                 return object:IsA(class);
             end;
