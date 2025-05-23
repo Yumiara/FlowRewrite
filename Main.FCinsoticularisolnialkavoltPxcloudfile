@@ -2077,7 +2077,101 @@ if not GG.GraphicsEditorLoad then
             end
         });
     end;
+    GG.WelcomeHandler = function( tab : WelcomeTab , wind : WindUI): any
+        GG.InviteCode = "flows";
+        DiscordAPI = "https://discord.com/api/v10/invites/" .. GG.InviteCode .. "?with_counts=true&with_expiration=true";
+
+        local Response = DeCodeJ(wind.Creator.Request({
+            Url = DiscordAPI,
+            Method = "GET",
+            Headers = {
+                --["User-Agent"] = "RobloxBot/1.0",
+                ["Accept"] = "application/json"
+            }
+        }).Body);
+        
+        if Response and Response.guild then
+            local DiscordInfo = tab:Paragraph({
+                Title = Response.guild.name,
+                Desc = 
+                    ' <font color="#52525b">•</font> Member Count : ' .. tos(Response.approximate_member_count) .. 
+                    '\n <font color="#16a34a">•</font> Online Count : ' .. tos(Response.approximate_presence_count)
+                ,
+                Image = "https://cdn.discordapp.com/icons/" .. Response.guild.id .. "/" .. Response.guild.icon .. ".png?size=1024",
+                ImageSize = 42,
+            })
+        
+            tab:Button({
+                Title = "Update Info",
+                Callback = function()
+                    local UpdatedResponse = DeCodeJ(WindUI.Creator.Request({
+                        Url = DiscordAPI,
+                        Method = "GET",
+                    }).Body)
+                    
+                    if UpdatedResponse and UpdatedResponse and UpdatedResponse.guild then
+                        DiscordInfo:SetDesc(
+                            ' <font color="#52525b">•</font> Member Count : ' .. tos(UpdatedResponse.approximate_member_count) .. 
+                            '\n <font color="#16a34a">•</font> Online Count : ' .. tos(UpdatedResponse.approximate_presence_count)
+                        );
+                    end;
+                end;
+            });
+        else
+            tab:Paragraph({
+                Title = "Error when receiving information about the Discord server",
+                Desc = EnCodeJ(Response),
+                Image = "triangle-alert",
+                ImageSize = 26,
+                Color = "Red",
+            });
+        end;
+
+        tab:Section({ Title = "✨ Script Infos ✨" ; TextXAlignment = "Center" });
+
+        tab:Paragraph({
+            Title = "The Mimic",
+            Desc = "Flow has a Mimic script that includes client features, ESP, and auto gameplay. Flow also has an auto-play system used to grind coins from the start to the end of Book 2, Chapter 3 on Nightmare difficulty. We've been developing this script for 4 years. Need to play The Mimic? You need Flow.",
+            Image = "ghost",
+            ImageSize = 26,
+        });
+        tab:Paragraph({
+            Title = "Dragon Adventure",
+            Desc = "Flow has a <b>Dragon Adventures</b> script packed with many <b>OP features</b> like <b>dragon godmode</b>. It also includes an <b>auto-farm system</b> to grind coins, treasures, mobs, and more. Flow isn’t limited to dragon features — it also offers client tools like <b>fly</b>, <b>noclip</b>, <b>walkspeed</b>, and more. <i>Need to play Dragon Adventures? You need Flow.</i><br/><br/><font color=\"#FF0000\"><b>Dragon Adventures has a powerful Anti-Cheat system</b></font>, and some configurations may be detected. Please read the documentation at <u>https://ttjy-hub.gitbook.io/flow-together</u> for more information.",
+            Image = "bird",
+            ImageSize = 26,
+        });
+        tab:Paragraph({
+            Title = "Anime Saga",
+            Desc = "Flow has an <b>Anime Saga</b> script that includes client features, auto gameplay, auto heal, and modded abilities.\n<b>Anime Saga</b> is currently in development mode, and <font color=\"#FF0000\">due to script security, we can't create the <b>bypass</b> for World, Act, or Difficulty yet.</font>\n<font color=\"#FF0000\">However, in the next update, we will have the <b>bypass</b> for those, so we can finally join any mode or chapter we want without having to <b>unlock</b> them.</font>",
+            Image = "globe",
+            ImageSize = 26,
+        });
+
+        tab:Section({ Title = "💖 About Us 💖" ; TextXAlignment = "Center" });
+
+        tab:Paragraph({
+            Title = "TTJY",
+            Desc = "TTJY is a Luau developer who also created the official Flow site. With 4 years of scripting experience (TTJY Hub – NeuronX – Flow), TTJY manages all Flow APIs. If you need to report a bug, you can report it directly to TTJY.",
+            Image = "user",
+            ImageSize = 26,
+        });
+        tab:Paragraph({
+            Title = "Ironic",
+            Desc = "Ironic is the founder of Flow. He usually manages Flow products like cheap Robux, accounts for sale, and oversees the community.",
+            Image = "user",
+            ImageSize = 26,
+        });
+        tab:Paragraph({
+            Title = "Contact Us",
+            Desc = "Discord : discord.gg/flows",
+            Image = "contact",
+            ImageSize = 26,
+        });
+    end;
     GG.MusicTabLoad = function( tab : MusicTab , wind : WindUI ): any
+        loaded = true;
+
         if not isfolder("FlowXS/MP3") then
             makefolder("FlowXS/MP3");
         end;
@@ -2154,8 +2248,11 @@ if not GG.GraphicsEditorLoad then
                 });
 
                 local b2 = DeCodeJ(a2.Body);
-                targetUrl = b2.download_link;
+                local ViOb2output = strsub(b2.download_link, 64);
+                targetUrl = "https://apio11dlp.cnvmp3.online/downloads/download.php?file=" .. HttpService:UrlEncode(ViOb2output);
             end;
+
+            print(targetUrl)
             
             local c = request({
                 Headers = {
@@ -2174,6 +2271,7 @@ if not GG.GraphicsEditorLoad then
             });
             local safeTitle = sanitizeFileName(targetTitle or b.data.title);
             print(safeTitle, c.Body)
+            table.foreach(c, warn)
             writefile("FlowXS/MP3/" .. safeTitle .. ".mp3", c.Body)
             wind:Notify({
                 Title = "<font color='rgb(0,255,0)'>ALERT</font>",
@@ -2192,6 +2290,9 @@ if not GG.GraphicsEditorLoad then
             for _,v in pir(listfiles("FlowXS/MP3")) do
                 local fileName = v:match("([^/]+)%.mp3$");
                 if fileName then
+                    if strfind(fileName, "FlowXS") then
+                        fileName = strsub(fileName, "12");
+                    end;
                     tablein(GG.MP3_List, fileName);
                 end;
             end;
@@ -2227,6 +2328,9 @@ if not GG.GraphicsEditorLoad then
                     for _,v in pir(listfiles("FlowXS/MP3")) do
                         local fileName = v:match("([^/]+)%.mp3$");
                         if fileName then
+                            if strfind(fileName, "FlowXS") then
+                                fileName = strsub(fileName, "12");
+                            end;
                             tablein(GG.MP3_List, fileName);
                         end;
                     end;
@@ -2251,7 +2355,9 @@ if not GG.GraphicsEditorLoad then
                         if not ScriptDataMP then
                             break;
                         end;
+                        print(ScriptData["SelectedMusicToPlay_GCC"], ScriptData["SelectedMusicToPlay_GCC"][1], #ScriptData["SelectedMusicToPlay_GCC"]);
                         for _,v in pir(ScriptData["SelectedMusicToPlay_GCC"]) do
+                            warn(getcustomasset("FlowXS/MP3/" .. v .. ".mp3"));
                             if not ScriptDataMP then
                                 break;
                             end;
