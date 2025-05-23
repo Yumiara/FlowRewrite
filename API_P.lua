@@ -213,6 +213,8 @@ elseif GameId == 1430993116 then -- Test
     scrName = GG.API_K;
 elseif GameId == 994732206 then -- Bloxfruit
     scrName = GG.API_K;
+elseif GameId == 6115988515 then
+    scrName = GG.API_K; -- Anime Saga
 else
     scrName = GG.Uni;
 end;
