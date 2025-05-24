@@ -283,7 +283,7 @@ do
                     r.ImageLabel.Image = getcustomasset(s);
                 end);
                 if not t then
-                    r:Destroy();
+                    --r:Destroy();
                     warn("[ WindUI.Creator ]  '" .. identifyexecutor() .. "' doesnt support the URL Images. Error: " .. u);
                 end;
             else
