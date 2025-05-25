@@ -200,7 +200,7 @@ elseif GameId == 4777817887 then -- blade ball
 elseif GameId == 2440500124 then -- Door
 	Kick("Check status");
 elseif GameId == 2294168059 then -- The Mimic
-	Kick("Check status");
+	scrName = GG.API_K;
 elseif GameId == 1000233041 then -- SCP
 	Kick("Check status");
 elseif GameId == 5569032992 then -- Dandy World
