@@ -51,6 +51,8 @@ if not GG.AlreadyLoadMain then
                 return OriginalWarn(...);
             end;
 
+            GG.API_Q = [[if not Configs then return; end;]];
+
             GG.lowesttime = 0.0000016689300537109375;
             GG.setc = setclipboard or toclipboard;
             GG.tos = tostring;
@@ -84,9 +86,16 @@ if not GG.AlreadyLoadMain then
             GG.sort = table.sort;
             GG.concat = table.concat;
             GG.unpack = table.unpack;
+            GG.Dim2 = UDim2.new;
+
+            GG.queueOT = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport) or on_teleport or false;
 
             GG.LowerC = hookfunction or hookfunc;
             GG.UpperC = hookmetamethod;
+
+            GG.GetPivot = function( object : any )
+                return object:GetPivot(true);
+            end;
 
             GG.IsA = function( object : any , class : string )
                 return object:IsA(class);
@@ -107,6 +116,9 @@ if not GG.AlreadyLoadMain then
             end;
             GG.FindFirstChildWhichIsA = function( object : any , class : string , isDescen : boolean )
                 return object:FindFirstChildWhichIsA(class, isDescen or nil);
+            end;
+            GG.FindFirstAncestorWhichIsA = function( object : any , class : string , isDescen : boolean )
+                return object:FindFirstAncestorWhichIsA(class, isDescen or nil);
             end;
 
             GG.GetService = function( service : string )
@@ -689,6 +701,77 @@ if not GG.AlreadyLoadMain then
 
                 return result;
             end;
+            
+            GG.CG_tbl_ToString = function(tbl, indentLevel)
+                indentLevel = indentLevel or 0
+                local indent = string.rep("    ", indentLevel)
+                if type(tbl) ~= "table" then
+                    if type(tbl) == "string" then
+                        return "\"" .. tbl .. "\""
+                    end
+                    return tostring(tbl)
+                end
+            
+                local result = "{\n"
+                local isArray = true
+                local length = 0
+    
+                for k, _ in pairs(tbl) do
+                    if type(k) ~= "number" or k < 1 or math.floor(k) ~= k then
+                        isArray = false
+                    end
+                    length = length + 1
+                end
+            
+                if length == 0 then
+                    return "{}"
+                end
+            
+                if isArray then
+                    local arrayLength = #tbl
+                    for i = 1, arrayLength do
+                        local value = tbl[i]
+                        result = result .. indent .. "    "
+                        if type(value) == "table" then
+                            result = result .. CG_tbl_ToString(value, indentLevel + 1)
+                        elseif type(value) == "string" then
+                            result = result .. "\"" .. value .. "\""
+                        else
+                            result = result .. tos(value)
+                        end
+                        if i < arrayLength then
+                            result = result .. ","
+                        end
+                        result = result .. "\n"
+                    end
+                else
+                    local index = 0
+                    for k, v in pairs(tbl) do
+                        index = index + 1
+                        result = result .. indent .. "    ["
+                        if type(k) == "string" then
+                            result = result .. "\"" .. k .. "\""
+                        else
+                            result = result .. tos(k)
+                        end
+                        result = result .. "] = "
+                        if type(v) == "table" then
+                            result = result .. CG_tbl_ToString(v, indentLevel + 1)
+                        elseif type(v) == "string" then
+                            result = result .. "\"" .. v .. "\""
+                        else
+                            result = result .. tos(v)
+                        end
+                        if index < length then
+                            result = result .. ","
+                        end
+                        result = result .. "\n"
+                    end
+                end
+            
+                result = result .. indent .. "}";
+                return result;
+            end;
         end);
 
         if GlobalOneRunCall then
@@ -699,6 +782,32 @@ if not GG.AlreadyLoadMain then
                 game:GetService("Players"):Kick("Please report this bug to discord server and provide your executor. : " .. GlobalOneRunError);
             end;
         end;
+    end;
+end;
+
+GG.is_mobile = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled;
+GG.CONTROL = {F = 0, B = 0, L = 0, R = 0, Q = 0, E = 0};
+
+if isMobile then
+    GG.controlModule = GG.controlModule or require(selff.PlayerScripts:WaitForChild("PlayerModule"):WaitForChild("ControlModule"));
+end
+
+if UpperC then
+    if PlaceId == 15962819441 then
+        local a = nil;
+        a = hookmetamethod(game, "__namecall", function(self, ...)
+            local args = {...};
+            local method = getnamecallmethod();
+            local tos_self = tos(self);
+
+            if method == "FireServer" then
+                if tos_self == "Sender" or tos_self == "Sender2" then
+                    return wait(9e9);
+                end;
+            end;
+
+            return a(self, ...);
+        end);
     end;
 end;
 
@@ -2104,7 +2213,7 @@ if not GG.GraphicsEditorLoad then
             tab:Button({
                 Title = "Update Info",
                 Callback = function()
-                    local UpdatedResponse = DeCodeJ(WindUI.Creator.Request({
+                    local UpdatedResponse = DeCodeJ(wind.Creator.Request({
                         Url = DiscordAPI,
                         Method = "GET",
                     }).Body)
