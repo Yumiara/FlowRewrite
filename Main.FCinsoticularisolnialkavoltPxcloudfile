@@ -772,6 +772,92 @@ if not GG.AlreadyLoadMain then
                 result = result .. indent .. "}";
                 return result;
             end;
+
+            function FProximityPrompt()
+                local unc = {
+                    Prompts = {};
+                }
+            
+                local Camera = Cam;
+                local Execonce = Instancen('Part');
+            
+                Execonce.Anchored = true;
+                Execonce.CanTouch = false;
+                Execonce.CanCollide = false;
+                Execonce.CanQuery = false;
+                Execonce.CastShadow = false;
+                Execonce.Size = Vec3(0.01,0.01,0.01);
+                Execonce.Parent = workspace;
+                Execonce.Name = 'Regisiter';
+                Execonce.Transparency = 1;
+            
+                function unc.fireprompt(ProximityPrompt, ...)
+                    if not unc[ProximityPrompt] then
+                        local Information = {};
+                        
+                        Information.HoldDuration = ProximityPrompt.HoldDuration;
+                        Information.MaxActivationDistance = ProximityPrompt.MaxActivationDistance;
+                        Information.RequiresLineOfSight = ProximityPrompt.RequiresLineOfSight;
+                        Information.Parent = ProximityPrompt.Parent;
+                        
+                        unc[ProximityPrompt] = Information;
+                    end;
+                    
+                    local Init = function()
+                        
+                    
+                        Execonce.CFrame = Camera.CFrame * CF(0,0,-4);
+                        
+                        ProximityPrompt.HoldDuration = -5;
+                        ProximityPrompt.MaxActivationDistance = 250;
+                        ProximityPrompt.Enabled = true;
+                        ProximityPrompt.RequiresLineOfSight = false;
+                        ProximityPrompt.Parent = Execonce;
+                        
+                        local spam = task.spawn(function()
+                            while true do 
+                                twait(0.000001/9)
+                                Execonce.CFrame = Camera.CFrame * CF(0,0,-4);
+                                ProximityPrompt:InputHoldBegin();
+                                
+                                H.RenderStepped:Wait()
+                                
+                                Execonce.CFrame = Camera.CFrame * CF(0,0,-4);
+                                ProximityPrompt:InputHoldEnd();
+                            end;
+                        end)
+                        
+                        ProximityPrompt.Triggered:Wait();
+                        
+                        repeat twait();
+                            KAWKWDKDK, WDAJDUWAY2waWDW = pcal(function()
+                                task.cancel(spam);
+                            end);
+                        until KAWKWDKDK
+                        
+                        local Loaded = unc[ProximityPrompt];
+                        
+                        ProximityPrompt.HoldDuration = Loaded.HoldDuration;
+                        ProximityPrompt.MaxActivationDistance = Loaded.MaxActivationDistance;
+                        ProximityPrompt.RequiresLineOfSight = Loaded.RequiresLineOfSight;
+                        ProximityPrompt.Parent = Loaded.Parent;
+                    end;
+                    
+                    local option = {...};
+                    
+                    if typeof(option[1]) == 'number' then
+                        for i=1,option[1] do
+                            Init();
+                        end;
+                    end;
+                end;
+            
+                return unc
+            end;
+
+            if debug.getinfo(fireproximityprompt).what ~= "C" then
+                GG.fireproximityprompt = FProximityPrompt().fireprompt;
+            end;
         end);
 
         if GlobalOneRunCall then
