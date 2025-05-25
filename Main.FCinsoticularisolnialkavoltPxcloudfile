@@ -215,7 +215,7 @@ if not GG.AlreadyLoadMain then
                     Sources = game:HttpGet(url, bool or nil);
                 end);
                 if not OneRunCall then
-                    Sources = game:HttpGet(url, url);
+                    Sources = game:HttpGet(url, true);
                 end;
                 return Sources;
             end;
@@ -335,7 +335,7 @@ if not GG.AlreadyLoadMain then
                 end;
             
                 if tick() - ton(ALLVersion[fileName]) >= 600 then
-                    local source = HttpGet(srcName, srcName);
+                    local source = HttpGet(srcName, true);
                     writefile(cacheFile, source);
     
                     ALLVersion[fileName] = tos(tick());
@@ -354,7 +354,7 @@ if not GG.AlreadyLoadMain then
                         local cachedSource = isfile(cacheFile) and readfile(cacheFile);
     
                         if not cachedSource or not isfile(versionFile) then
-                            local source = HttpGet(srcName, srcName);
+                            local source = HttpGet(srcName, true);
                             writefile(cacheFile, source);
     
                             ALLVersion[fileName] = tos(tick());
