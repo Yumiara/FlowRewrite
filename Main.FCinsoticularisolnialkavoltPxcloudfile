@@ -2401,14 +2401,17 @@ if not GG.GraphicsEditorLoad then
         GG.InviteCode = "flows";
         DiscordAPI = "https://discord.com/api/v10/invites/" .. GG.InviteCode .. "?with_counts=true&with_expiration=true";
 
-        local Response = DeCodeJ(wind.Creator.Request({
-            Url = DiscordAPI,
-            Method = "GET",
-            Headers = {
-                --["User-Agent"] = "RobloxBot/1.0",
-                ["Accept"] = "application/json"
-            }
-        }).Body);
+        local Response = nil
+        pcal(function()
+            Response = DeCodeJ(wind.Creator.Request({
+                Url = DiscordAPI,
+                Method = "GET",
+                Headers = {
+                    --["User-Agent"] = "RobloxBot/1.0",
+                    ["Accept"] = "application/json"
+                }
+            }).Body);
+        end);
         
         if Response and Response.guild then
             local DiscordInfo = tab:Paragraph({
