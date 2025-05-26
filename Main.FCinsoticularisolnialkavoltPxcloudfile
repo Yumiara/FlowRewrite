@@ -21,52 +21,95 @@ GG.APINUMBER = "Luarify 2.9";
 
 GG.Uni = "https://raw.githubusercontent.com/Yumiara/FlowRewrite/refs/heads/main/listfiles/Universal.lua";
 GG.API_K = "https://raw.githubusercontent.com/Yumiara/FlowRewrite/refs/heads/main/API_K.lua";
+GG.API_Q = [[if not Configs then return; end;]];
+
+------------- Global API Setup -------------
 
 if not GG.AlreadyLoadMain then
     for i=1, 3 do
         local GlobalOneRunCall, GlobalOneRunError = pcall(function()
+            local OriginPrint = print;
+            local OriginalWarn = warn;
+
             GG.AllowDebug = true;
 
-            local OriginPrint = print;
-            GG.OriginPrint2 = print;
             GG.print = function(...)
                 local txt = tos(...);
-                if strfind(txt, "Debug") then
-                    if GG.AllowDebug then
-                        return OriginPrint(...);
-                    end;
+                if strfind(txt, "Debug") then 
+                    if GG.AllowDebug then 
+                        return OriginPrint(...); 
+                    end; 
                 end;
-                if strfind(txt, "Pelican") then
-                    return;
-                end;
+                if strfind(txt, "Pelican") then return; end;
                 return OriginPrint(...);
             end;
-
-            local OriginalWarn = warn;
             GG.warn = function(...)
                 local txt = tos(...);
-                if strfind(txt, "Pelican") then
-                    return;
-                end;
+                if strfind(txt, "Pelican") then return; end;
                 return OriginalWarn(...);
             end;
 
-            GG.API_Q = [[if not Configs then return; end;]];
-
             GG.lowesttime = 0.0000016689300537109375;
-            GG.setc = setclipboard or toclipboard;
+
+            GG.setc = (setclipboard or toclipboard) or nil;
+
+            GG.tob = tobit or nil;
+
+            GG.fireproximityprompt = fireproximityprompt or FireProximityPrompt;
+
+            GG.dumpheap = dumpheap or debug.dumpheap;
+            GG.getconstants = getconstants or debug.getconstants;
+            GG.getproto = getproto or debug.getproto;
+            GG.setmemorycategory = setmemorycategory or debug.setmemorycategory;
+            GG.profilebegin = profilebegin or debug.profilebegin;
+            GG.loadmodule = loadmodule or debug.loadmodule;
+            GG.traceback = traceback or debug.traceback;
+            GG.getinfo = getinfo or debug.getinfo;
+            GG.getstack = getstack or debug.getstack;
+            GG.isvalidlevel = isvalidlevel or debug.isvalidlevel;
+            GG.getupvalues = getupvalues or debug.getupvalues;
+            GG.getconstant = getconstant or debug.getconstant;
+            GG.getfenv = getfenv or debug.getfenv;
+            GG.getupvalue = getupvalue or debug.getupvalue;
+            GG.getmemorycategory = getmemorycategory or debug.getmemorycategory;
+            GG.resetmemorycategory = resetmemorycategory or debug.resetmemorycategory;
+            GG.getprotos = getprotos or debug.getprotos;
+            GG.dumpcodesize = dumpcodesize or debug.dumpcodesize;
+            GG.setstack = setstack or debug.setstack;
+            GG.profileend = profileend or debug.profileend;
+            GG.dumprefs = dumprefs or debug.dumprefs;
+            GG.validlevel = validlevel or debug.validlevel;
+            GG.setupvalue = setupvalue or debug.setupvalue;
+            GG.setconstant = setconstant or debug.setconstant;
+            GG.getregistry = getregistry or debug.getregistry;
+            GG.info = info or debug.info;
+
+            GG.wait = wait;
+            GG.delay = delay;
+            GG.spawn = spawn;
+            GG.tick = tick;
+
             GG.tos = tostring;
             GG.ton = tonumber;
-            GG.tablein = table.insert;
-            GG.tablecl = table.clear;
-            GG.tablef = table.find;
+
+            GG.tble = table;
+            GG.tablein = tble.insert;
+            GG.tablecl = tble.clear;
+            GG.tablef = tble.find;
+            GG.tsort = tble.sort;
+            GG.tconcat = tble.concat;
+            GG.tunpack = tble.unpack;
+            GG.tabler = tble.remove;
+
             GG.tk = task;
-            GG.tspawn = tk.spawn;
             GG.twait = tk.wait;
+            GG.tdefer = tk.tdefer;
+            GG.tspawn = tk.spawn;
+            GG.tcancel = tk.cancel;
             GG.tdelay = task.delay;
-            GG.wait = wait;
-            GG.Vec3 = Vector3.new;
-            GG.CF = CFrame.new;
+            GG.tdesyn = tk.desynchronize;
+            GG.tsyn = tk.synchronize;
+
             GG.str = string;
             GG.strgsub = str.gsub;
             GG.strsub = str.sub;
@@ -74,27 +117,107 @@ if not GG.AlreadyLoadMain then
             GG.strlen = str.len;
             GG.strchar = str.char;
             GG.strbyte = str.byte;
-            GG.pir = pairs;
-            GG.pcal = pcall;
-            GG.Instancen = Instance.new;
-            GG.tick = tick;
-            GG.delay = delay;
-            GG.mfloor = math.floor;
-            GG.tabler = table.remove;
+            GG.strsplit = str.split;
+            GG.strmatch = str.match;
+            GG.strgmatch = str.gmatch;
+            GG.strupper = str.upper;
+            GG.strlower = str.lower;
+            GG.strformat = str.format;
+            GG.strpack = str.pack;
+            GG.strpacksize = str.packsize;
+            GG.strreverse = str.reverse;
+            GG.strunpack = str.unpack;
+            GG.strrep = str.rep;
+
+            GG.mmaths = math;
+            GG.mlog = mmaths.log;
+            GG.mldexp = mmaths.ldexp;
+            GG.mdeg = mmaths.deg;
+            GG.mcosh = mmaths.cosh;
+            GG.mround = mmaths.round;
+            GG.mrandom = mmaths.random;
+            GG.mfrexp = mmaths.frexp;
+            GG.mtanh = mmaths.tanh;
+            GG.mfloor = mmaths.floor;
+            GG.mmax = mmaths.max;
+            GG.msqrt = mmaths.sqrt;
+            GG.mmodf = mmaths.modf;
+            GG.mhuge = mmaths.huge;
+            GG.mpow = mmaths.pow;
+            GG.macos = mmaths.acos;
+            GG.mtan = mmaths.tan;
+            GG.mcos = mmaths.cos;
+            GG.mpi = mmaths.pi;
+            GG.matan = mmaths.atan;
+            GG.mmap = mmaths.map;
+            GG.msign = mmaths.sign;
+            GG.mceil = mmaths.ceil;
+            GG.mclamp = mmaths.clamp;
+            GG.mnoise = mmaths.noise;
+            GG.mabs = mmaths.abs;
+            GG.mexp = mmaths.exp;
+            GG.msinh = mmaths.sinh;
+            GG.masin = mmaths.asin;
+            GG.mmin = mmaths.min;
+            GG.mrandomseed = mmaths.randomseed;
+            GG.mfmod = mmaths.fmod;
+            GG.mrad = mmaths.rad;
+            GG.matan2 = mmaths.atan2;
+            GG.mlog10 = mmaths.log10;
+            GG.msin = mmaths.sin;
+            GG.mlerp = mmaths.lerp;
+
+            GG.Col3 = Color3;
             GG.fromRGB = Color3.fromRGB;
+            GG.fromHex = Col3.fromHex;
+            GG.fromHSV = Col3.fromHSV;
+            GG.toHSV = Col3.toHSV;
+            GG.new = Col3.new;
+
+            GG.BCol = BrickColor;
+            GG.BBlue = BCol.Blue;
+            GG.BWhite = BCol.White;
+            GG.BYellow = BCol.Yellow;
+            GG.BRed = BCol.Red;
+            GG.BGray = BCol.Gray;
+            GG.Bpalette = BCol.palette;
+            GG.BNew = BCol.New;
+            GG.BBlack = BCol.Black;
+            GG.BGreen = BCol.Green;
+            GG.BRandom = BCol.Random;
+            GG.BDarkGray = BCol.DarkGray;
+            GG.Brandom = BCol.random;
+            GG.Bnew = BCol.new;
+
+            GG.Reg3 = Region3;
+            GG.Regnew = Reg3.new;
+
+            GG.Vec3 = Vector3.new;
+            GG.Vec2 = Vector2.new;
+            GG.CF = CFrame.new;
+            
+            GG.pir = pairs;
             GG.ipairs = ipairs;
-            GG.sort = table.sort;
-            GG.concat = table.concat;
-            GG.unpack = table.unpack;
+
+            GG.pcal = pcall;
+            GG.xpcal = xpcall;
+
+            GG.Instancen = Instance.new;
+
             GG.Dim2 = UDim2.new;
+            GG.Dim = UDim.new;
 
             GG.queueOT = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport) or on_teleport or false;
 
             GG.LowerC = hookfunction or hookfunc;
             GG.UpperC = hookmetamethod;
 
-            GG.GetPivot = function( object : any )
+            GG.GetPivot = function( object : Model ): nil
                 return object:GetPivot(true);
+            end;
+
+            GG.PivotTo = function( object : Model , cframe : CFrame ): nil
+                return object:PivotTo(cframe);
             end;
 
             GG.IsA = function( object : any , class : string )
@@ -108,6 +231,10 @@ if not GG.AlreadyLoadMain then
                 return object:SetAttribute(attribute, value);
             end;
 
+            GG.WaitForChild = function( object : Instance , name : string , timeout : number )
+                return object:WaitForChild(name, timeout or nil);
+            end;
+
             GG.FindFirstChild = function( object : any , name : string , isDescen : boolean )
                 return object:FindFirstChild(name, isDescen or nil);
             end;
@@ -116,6 +243,12 @@ if not GG.AlreadyLoadMain then
             end;
             GG.FindFirstChildWhichIsA = function( object : any , class : string , isDescen : boolean )
                 return object:FindFirstChildWhichIsA(class, isDescen or nil);
+            end;
+            GG.FindFirstAncestor = function( object : any , name : string , isDescen : boolean )
+                return object:FindFirstAncestor(name, isDescen or nil);
+            end;
+            GG.FindFirstAncestorOfClass = function( object : any , class : string )
+                return object:FindFirstAncestorOfClass(class);
             end;
             GG.FindFirstAncestorWhichIsA = function( object : any , class : string , isDescen : boolean )
                 return object:FindFirstAncestorWhichIsA(class, isDescen or nil);
@@ -131,11 +264,7 @@ if not GG.AlreadyLoadMain then
             GG.GetDescendants = function( object : Instance )
                 return object:GetDescendants();
             end;
-
-            GG.WaitForChild = function( object : Instance , name : string , timeout : number )
-                return object:WaitForChild(name, timeout or nil);
-            end;
-
+            
             GG.Destroy = function( object : Instance )
                 return object:Destroy(true);
             end;
@@ -172,6 +301,7 @@ if not GG.AlreadyLoadMain then
             GG.selff = P.LocalPlayer;
             GG.Cam = WaitForChild(W, "Camera", 999);
             GG.PSG = WaitForChild(selff, "PlayerGui", 999);
+            GG.PlayerScripts = WaitForChild(selff, "PlayerScripts", 999);
             GG.cmdm = selff:GetMouse();
             GG.Backpack = selff.Backpack;
             GG.selc = selff.Character;
@@ -191,19 +321,14 @@ if not GG.AlreadyLoadMain then
 
             GG.BlackExec = false;
 
-            local Iden=nil; pcal(function()  Iden = identifyexecutor(); end);
+            GG.uncCheck2point1 = {};
 
-            local IdentifyList : any = {
-                "Solara";
-                "Real";
-                "Private__Win0";
-            };
-
-            if tablef(IdentifyList, Iden) then
-                GG.BlackExec = true;
-            end;
-            if strfind(Iden, "Xeno") then
-                GG.BlackExec = true;
+            if getinfo then
+                (GG.uncCheck2point1)["require"] = (require and getinfo(require).what) or false;
+                (GG.uncCheck2point1)["fireproximityprompt"] = (fireproximityprompt and getinfo(fireproximityprompt).what) or false;
+                (GG.uncCheck2point1)["getgc"] = (getgc and getinfo(getgc).what) or false;
+                (GG.uncCheck2point1)["firetouchinterest"] = (firetouchinterest and getinfo(firetouchinterest).what) or false;
+                (GG.uncCheck2point1)["request"] = (request and getinfo(request).what) or false;
             end;
 
             GG.GameId = game.GameId;
@@ -855,7 +980,7 @@ if not GG.AlreadyLoadMain then
                 return unc
             end;
 
-            if debug.getinfo(fireproximityprompt).what ~= "C" then
+            if (GG.uncCheck2point1)["fireproximityprompt"] ~= "C" then
                 GG.fireproximityprompt = FProximityPrompt().fireprompt;
             end;
         end);
@@ -874,8 +999,8 @@ end;
 GG.is_mobile = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled;
 GG.CONTROL = {F = 0, B = 0, L = 0, R = 0, Q = 0, E = 0};
 
-if isMobile then
-    GG.controlModule = GG.controlModule or require(selff.PlayerScripts:WaitForChild("PlayerModule"):WaitForChild("ControlModule"));
+if isMobile and (GG.uncCheck2point1)["require"] ~= "Lua" then
+    GG.controlModule = GG.controlModule or require(PlayerScripts:WaitForChild("PlayerModule"):WaitForChild("ControlModule"));
 end
 
 if UpperC then
