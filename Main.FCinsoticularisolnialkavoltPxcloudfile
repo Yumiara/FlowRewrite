@@ -8,7 +8,7 @@ GG = (getgenv and getgenv()) or _G or shared or false;
 GG.GG = GG;
 
 if not GG then
-    game:GetService("Players"):Kick("GG not found. Please report this bug in discord server and tell us your executor.");
+    return game:GetService("Players"):Kick("GG not found. Please report this bug in discord server and tell us your executor.");
 end;
 
 GG.LoaderSettings = GG.LoaderSettings or {
@@ -30,32 +30,24 @@ if not GG.AlreadyLoadMain then
         local GlobalOneRunCall, GlobalOneRunError = pcall(function()
             local OriginPrint = print;
             local OriginalWarn = warn;
+            local OriginalError = error;
 
             GG.AllowDebug = true;
 
-            GG.print = function(...)
-                local txt = tos(...);
-                if strfind(txt, "Debug") then 
-                    if GG.AllowDebug then 
-                        return OriginPrint(...); 
-                    end; 
-                end;
-                if strfind(txt, "Pelican") then return; end;
-                return OriginPrint(...);
-            end;
-            GG.warn = function(...)
-                local txt = tos(...);
-                if strfind(txt, "Pelican") then return; end;
-                return OriginalWarn(...);
-            end;
+            GG.print = function(...) local txt = tos(...); if strfind(txt, "Debug") then if GG.AllowDebug then return OriginPrint(...); end; end; if strfind(txt, "Pelican") then return; end; return OriginPrint(...); end;
+            GG.warn = function(...) local txt = tos(...); if strfind(txt, "Pelican") then return; end; return OriginalWarn(...); end;
 
             GG.lowesttime = 0.0000016689300537109375;
+            GG.GameId = game.GameId;
+            GG.PlaceId = game.PlaceId;
 
             GG.setc = (setclipboard or toclipboard) or nil;
 
             GG.tob = tobit or nil;
 
             GG.fireproximityprompt = fireproximityprompt or FireProximityPrompt;
+
+            GG.setfpscap = (fpsunlock or fpsunlocker or setfps or setfpscap or setfpslimit or setfpsmax) or false;
 
             GG.dumpheap = dumpheap or debug.dumpheap;
             GG.getconstants = getconstants or debug.getconstants;
@@ -203,6 +195,7 @@ if not GG.AlreadyLoadMain then
             GG.xpcal = xpcall;
 
             GG.Instancen = Instance.new;
+            GG.fromExisting = Instance.fromExisting;
 
             GG.Dim2 = UDim2.new;
             GG.Dim = UDim.new;
@@ -281,37 +274,47 @@ if not GG.AlreadyLoadMain then
                 end;
             end;
 
+            GG.uncCheck2point1 = {};
+            if getinfo then
+                (GG.uncCheck2point1)["require"] = (require and getinfo(require).what) or false;
+                (GG.uncCheck2point1)["fireproximityprompt"] = (fireproximityprompt and getinfo(fireproximityprompt).what) or false;
+                (GG.uncCheck2point1)["getgc"] = (getgc and getinfo(getgc).what) or false;
+                (GG.uncCheck2point1)["firetouchinterest"] = (firetouchinterest and getinfo(firetouchinterest).what) or false;
+                (GG.uncCheck2point1)["request"] = (request and getinfo(request).what) or false;
+                (GG.uncCheck2point1)["isnetworkowner"] = (isnetworkowner and getinfo(isnetworkowner).what) or false;
+            end;
+
             GG.VirtualInputManager = GetService('VirtualInputManager');
             GG.CollectionService = GetService("CollectionService");
             GG.UserInputService = GetService("UserInputService");
-            GG.TextService = GetService("TextChatService");
-            GG.HttpService = GetService("HttpService");
             GG.TeleportService = GetService("TeleportService");
-            GG.StarterGui = GetService("StarterGui");
+            GG.TextService = GetService("TextChatService");
             GG.TweenService = GetService("TweenService");
+            GG.HttpService = GetService("HttpService");
+            GG.StarterGui = GetService("StarterGui");
             GG.GuiService = GetService("GuiService");
-            GG.VU = GetService("VirtualUser");
-            GG.W = GetService("Workspace");
-            GG.P = GetService("Players");
-            GG.L = GetService("Lighting");
-            GG.C = GetService("CoreGui");
-            GG.H = GetService("RunService");
             GG.R = GetService("ReplicatedStorage");
+            GG.VU = GetService("VirtualUser");
+            GG.H = GetService("RunService");
+            GG.W = GetService("Workspace");
+            GG.L = GetService("Lighting");
+            GG.P = GetService("Players");
+            GG.C = GetService("CoreGui");
 
             GG.selff = P.LocalPlayer;
-            GG.Cam = WaitForChild(W, "Camera", 999);
-            GG.PSG = WaitForChild(selff, "PlayerGui", 999);
             GG.PlayerScripts = WaitForChild(selff, "PlayerScripts", 999);
+            GG.PSG = WaitForChild(selff, "PlayerGui", 999);
+            GG.Cam = WaitForChild(W, "Camera", 999);
             GG.cmdm = selff:GetMouse();
             GG.Backpack = selff.Backpack;
             GG.selc = selff.Character;
 
-            GG.dist = function( position : Vector3 )
-                return selff:DistanceFromCharacter(position);
-            end;
-
             GG.Kick = function( text : string )
                 return selff:Kick(text);
+            end;
+
+            GG.dist = function( position : Vector3 )
+                return selff:DistanceFromCharacter(position);
             end;
 
             GG.Tp2 = function( pos : CFrame )
@@ -319,28 +322,19 @@ if not GG.AlreadyLoadMain then
                 return true;
             end;
 
-            GG.BlackExec = false;
-
-            GG.uncCheck2point1 = {};
-
-            if getinfo then
-                (GG.uncCheck2point1)["require"] = (require and getinfo(require).what) or false;
-                (GG.uncCheck2point1)["fireproximityprompt"] = (fireproximityprompt and getinfo(fireproximityprompt).what) or false;
-                (GG.uncCheck2point1)["getgc"] = (getgc and getinfo(getgc).what) or false;
-                (GG.uncCheck2point1)["firetouchinterest"] = (firetouchinterest and getinfo(firetouchinterest).what) or false;
-                (GG.uncCheck2point1)["request"] = (request and getinfo(request).what) or false;
-            end;
-
-            GG.GameId = game.GameId;
-            GG.PlaceId = game.PlaceId;
-
             GG.HttpGet = function( url : string , bool : boolean )
                 local Sources = nil;
-                local OneRunCall, OneRunError = pcal(function()
-                    Sources = game:HttpGet(url, bool or nil);
-                end);
-                if not OneRunCall then
-                    Sources = game:HttpGet(url, true);
+                for i=1, 3 do
+                    local OneRunCall, OneRunError = pcal(function()
+                        Sources = game:HttpGet(url, bool or nil);
+                    end);
+                    if not OneRunCall then
+                        if i >= 3 then
+                            return Kick("Failed to HttpGet. Report this bug to TTJY via discord.");
+                        end;
+                    else
+                        return Sources;
+                    end; twait();
                 end;
                 return Sources;
             end;
@@ -360,11 +354,10 @@ if not GG.AlreadyLoadMain then
                         Returner = loadstring2(source)();
                     end);
                     if OneRunC then
-                        break;
+                        return Returner;
                     else
                         warn("[Flow] : loadsource_err : " .. OneRunE);
-                    end;
-                    twait(2);
+                    end; twait();
                 end;
                 return Returner;
             end;
@@ -383,19 +376,15 @@ if not GG.AlreadyLoadMain then
             GG.f3x = function()
                 return loadsource(HttpGet("https://raw.githubusercontent.com/infyiff/backup/refs/heads/main/f3x.lua", true))();
             end;
-
             GG.dex = function()
                 return loadsource(HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua", true))();
             end;
-
             GG.rspy = function()
                 return loadsource(HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/SimpleSpyV3/main.lua", true))();
             end;
-
             GG.alogger = function()
                 return loadsource(HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/audiologger.lua", true))();
             end;
-
             GG.INFY = function()
                 return loadsource(HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source", true))();
             end;
@@ -403,11 +392,9 @@ if not GG.AlreadyLoadMain then
             GG.ApPos = function()
                 return setc(tos(selff.Character.HumanoidRootPart.Position));
             end;
-
             GG.ApCF = function()
                 return setc(tos(selff.Character.HumanoidRootPart.CFrame));
             end;
-
             GG.writePos = function()
                 return writefile("Pos.txt", tos(selff.Character.HumanoidRootPart.Position))
             end;
@@ -428,7 +415,6 @@ if not GG.AlreadyLoadMain then
                 end;
                 return;
             end;
-
             GG.self_UI = function(a)
                 for _, v in pir(GetDescendants(selff)) do
                     if IsA(v, "BillboardGui") then
@@ -1006,7 +992,7 @@ end
 if UpperC then
     if PlaceId == 15962819441 then
         local a = nil;
-        a = hookmetamethod(game, "__namecall", function(self, ...)
+        a = UpperC(game, "__namecall", function(self, ...)
             local args = {...};
             local method = getnamecallmethod();
             local tos_self = tos(self);
@@ -1019,6 +1005,99 @@ if UpperC then
 
             return a(self, ...);
         end);
+    end;
+    if PlaceId == 96354063422506 then
+        local ml = {
+            GS = "GetService",
+            jfoik = "Players",
+            nIJM = "LocalPlayer",
+            mhfd = "PlayerGui",
+            j6yr = "ChildAdded",
+            paosd = "game",
+            mkas = "next",
+            p0ms = "getconnections",
+            nsjkd = 'Disable',
+            X19uYW1lY2FsbA = "__namecall",
+            X19pbmRleA = "__index",
+            mksdsdds = "PROTECTED BY ARCENEY.CC",
+        };
+        
+        local k,osi = getfenv(),getgenv();
+        local p = k[ml.paosd];
+        local s = k[ml.mkas];
+        local kd = osi[ml.p0ms];
+        local meta = "ReplicatedFirst.Loading.LocalScript";
+        
+        for i,v in s , kd(p[ml.GS](p,ml.jfoik)[ml.nIJM][ml.mhfd][ml.j6yr]) do
+            if v then
+                v[ml.nsjkd](v);
+            end;
+        end;
+        
+        local old;
+        old = UpperC(p,ml.X19uYW1lY2FsbA,function(self , ...)
+            local traceBACK = debug.traceback();
+        
+            if string.find(traceBACK,meta,1,true) then
+                return error(ml.mksdsdds);
+            end;
+        
+            if getnamecallmethod() == "FireServer" and not checkcaller() then
+                if string.find(tostring(self),"Sender",1,true) then
+                    return error(ml.mksdsdds);
+                end;
+            end;
+            return old(self , ...)
+        end);
+        
+        local old_ind;
+        old_ind = UpperC(p,ml.X19pbmRleA,function(self , i , v)
+            local traceBACK = debug.traceback();
+        
+            if string.find(traceBACK,meta,1,true) then
+                return error(ml.mksdsdds);
+            end;
+        
+            if string.find(tostring(self),"Sender",1,true) and not checkcaller() then
+                return error(ml.mksdsdds);
+            end;
+        
+            return old_ind(self , i , v)
+        end);
+        
+        do
+            local oldfire;
+            oldfire = LowerC(Instance.new("RemoteEvent").FireServer,function(self,...)
+                local traceBACK = debug.traceback();
+        
+                if string.find(traceBACK,meta,1,true) then
+                    return error(ml.mksdsdds);
+                end;
+        
+                if string.find(tostring(self),"Sender",1,true) then
+                    return error(ml.mksdsdds);
+                end;
+        
+                return oldfire(self, ...)
+            end);
+        end;
+        
+        do
+            local oldfire;
+            oldfire = LowerC(Instance.new("UnreliableRemoteEvent").FireServer,function(self,...)
+                local traceBACK = debug.traceback();
+        
+                if string.find(traceBACK,meta,1,true) then
+                    return error(ml.mksdsdds);
+                end;
+        
+                if string.find(tostring(self),"Sender",1,true) then
+                    return error(ml.mksdsdds);
+                end;
+        
+                return oldfire(self, ...)
+            end);
+        end;
     end;
 end;
 
