@@ -1019,7 +1019,7 @@ if UpperC then
             nsjkd = 'Disable',
             X19uYW1lY2FsbA = "__namecall",
             X19pbmRleA = "__index",
-            mksdsdds = "PROTECTED BY ARCENEY.CC",
+            mksdsdds = "Bypassed Anti Cheat [sUNC + Specific]",
         };
         
         local k,osi = getfenv(),getgenv();
